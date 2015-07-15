@@ -4,6 +4,7 @@ b	= require 'browser-sync'
 reload = b.reload
 buffer = require 'vinyl-buffer'
 browserify = require 'browserify'
+debowerify = require 'debowerify'
 source = require 'vinyl-source-stream'
 del = require 'del'
 
@@ -33,10 +34,9 @@ g.task 'fonts', ->
 
 g.task 'coffee', ->
   browserify
-    entries : ['./dev/coffee/views/app.coffee']
-    # entries : ['./dev/coffee/sample/hoge.coffee']
+    entries    : ['./dev/coffee/views/app.coffee']
     extensions : '.coffee'
-    transform : ['coffeeify', 'debowerify']
+    transform  : ['coffeeify', 'debowerify']
   .bundle()
   .pipe source 'app.js'
   .pipe buffer()
@@ -47,14 +47,28 @@ g.task 'coffee', ->
 g.task 'html', ->
   g.src 'dev/**/*.html'
   .pipe g.dest('.tmp')
+  .pipe reload stream:true
 
 g.task 'default', ['browsersync'], ->
   g.watch '.tmp/**/*', ['reload']
 
-g.task 'clean', del.bind(null, ['./.tmp'])
+g.task 'clean', del.bind null, ['./.tmp']
 
 g.task 'build', ['clean', 'sass', 'coffee', 'html'], ->
 	g.src '.tmp/**/*'
 	.pipe $.tar 'dist/calculator.tar'
 	.pipe $.gzip()
 	.pipe g.dest '.'
+
+g.task 'test', ->
+
+  browserify
+    entries    : ['./test/models/app.coffee']
+    extensions : '.coffee'
+    transform  : ['coffeeify', 'debowerify']
+  .bundle()
+  .pipe source 'app.js'
+  .pipe g.dest './test/models/'
+
+  g.src './test/models/app.js'
+  .pipe $.mocha reporter:'nyan'
