@@ -1,37 +1,91 @@
 Backbone        = require 'backbone', $ = require 'jquery', _ = require 'underscore'
-
-Digit           = require './buttons/digit'
-
-Plus            = require './buttons/operands/plus'
-Minus           = require './buttons/operands/minus'
-Multiple        = require './buttons/operands/multiple'
-Devide          = require './buttons/operands/devide'
-Equal           = require './buttons/operands/equal'
-
+Button          = require './button'
 AppModel        = require '../models/app'
-
 Events          = require '../events/event'
 
 # 電卓アプリ全体のビュー・コントローラ
-App             = Backbone.View.extend
+App = Backbone.View.extend
 
   el : '#wrapper'
 
+  # 初期化処理
   initialize : ->
 
     _.bindAll @, 'clickDigit', 'clickClear', 'clickOperand', 'clickDot'
 
     @model      = new AppModel()
 
+    buttons = []
+    # 数字
     for digit in [0..9]
-      digitView = new Digit(digit:digit)
-      digitView.$el
+      digitView = new Button(
+        el : "#digit-#{digit}.digit"
+        model : new Backbone.Model(value:digit)
+        eventName : 'digit'
+      )
+      buttons.push digitView
 
-    @plus       = new Plus()
-    @minus      = new Minus()
-    @multiple   = new Multiple()
-    @devide     = new Devide()
-    @equal      = new Equal()
+    # 演算子
+    ## +
+    @plus = new Button(
+      el : '#plus.operand'
+      model : new Backbone.Model(value:'＋')
+      eventName : 'operand'
+    )
+    buttons.push @plus
+
+    ## -
+    @minus = new Button(
+      el : '#minus.operand'
+      model : new Backbone.Model(value:'ー')
+      eventName : 'operand'
+    )
+    buttons.push @minus
+
+    ## *
+    @multiply = new Button(
+      el : '#multiply.operand'
+      model : new Backbone.Model(value:'×')
+      eventName : 'operand'
+    )
+    buttons.push @multiply
+
+    ## /
+    @devide = new Button(
+      el : '#devide.operand'
+      model : new Backbone.Model(value:'÷')
+      eventName : 'operand'
+    )
+    buttons.push @devide
+
+    ## /
+    @equal = new Button(
+      el : '#equal.operand'
+      model : new Backbone.Model(value:'＝')
+      eventName : 'operand'
+    )
+    buttons.push @equal
+
+    # ドット
+    @dot = new Button(
+      el : '#dot.operand'
+      model : new Backbone.Model(value:'.')
+      eventName : 'dot'
+    )
+    buttons.push @dot
+
+    # クリア
+    @clear = new Button(
+      el : '#clear.operand'
+      model : new Backbone.Model(value:'C')
+      eventName : 'clear'
+    )
+    buttons.push @clear
+
+    for button in buttons
+      button.render()
+
+    buttons = null
 
     Events.on 'click:digit', @clickDigit
     Events.on 'click:dot', @clickDot
@@ -39,11 +93,15 @@ App             = Backbone.View.extend
     Events.on 'click:operand', @clickOperand
 
   clickDigit : (digit) ->
+    console.log digit
 
   clickClear : ->
+    console.log 'clear'
 
   clickOperand : (operand) ->
+    console.log operand
 
   clickDot : ->
+    console.log 'dot'
 
 new App()
