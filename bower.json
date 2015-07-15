@@ -1,0 +1,22 @@
+{
+  "name": "calculator",
+  "version": "0.0.0",
+  "authors": [
+    "hiroki-kishi"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "backbone": "~1.2.1"
+  },
+  "devDependencies": {
+    "bootstrap-sass": "~3.3.5"
+  }
+}
