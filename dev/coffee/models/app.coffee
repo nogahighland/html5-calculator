@@ -21,24 +21,28 @@ module.exports = Backbone.Model.extend
       return
 
     if @isEmpty()
-      @set 'firstFigure', digit
-      @set 'display', digit
+      @set
+      'firstFigure': digit
+      'display'    : digit
 
     else if @isFirstFigureInputProgressing()
       update = @get('firstFigure') + '' + digit
       update *= 1
-      @set 'firstFigure', update
-      @set 'display', update
+      @set
+        'firstFigure': update
+        'display'    : update
 
     else if @isWaitingForSecondFigure()
-      @set 'secondFigure', digit
-      @set 'display', digit
+      @set
+        'secondFigure': digit
+        'display'     : digit
 
     else if @isSecondFigureInputProgressing()
       update = @get('secondFigure') + '' + digit
       update *= 1
-      @set 'secondFigure', update
-      @set 'display', update
+      @set
+        'secondFigure':update
+        'display'     : update
 
     else
       @set 'display', 'unexpected!'
@@ -60,9 +64,10 @@ module.exports = Backbone.Model.extend
 
       update = @calculate(f1, f2, @get('operand'))
       @set 'display', update
-      @set 'firstFigure', f2
-      @set 'result', update
-      @set 'secondFigure', null
+      @set
+        'firstFigure' : f2
+        'result'      : update
+        'secondFigure': null
 
     else
 
