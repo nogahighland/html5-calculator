@@ -33,13 +33,14 @@ g.task 'fonts', ->
 
 g.task 'coffee', ->
   browserify
-    entries : ['./dev/coffee/app.coffee']
+    entries : ['./dev/coffee/views/app.coffee']
+    # entries : ['./dev/coffee/sample/hoge.coffee']
     extensions : '.coffee'
     transform : ['coffeeify', 'debowerify']
   .bundle()
   .pipe source 'app.js'
   .pipe buffer()
-  .pipe $.uglify()
+  # .pipe $.uglify()
   .pipe g.dest '.tmp/js'
   .pipe reload stream:true
 
@@ -47,7 +48,7 @@ g.task 'html', ->
   g.src 'dev/**/*.html'
   .pipe g.dest('.tmp')
 
-g.task 'default', ['clean','browsersync'], ->
+g.task 'default', ['browsersync'], ->
   g.watch '.tmp/**/*', ['reload']
 
 g.task 'clean', del.bind(null, ['./.tmp'])
