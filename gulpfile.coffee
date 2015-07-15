@@ -18,14 +18,18 @@ g.task 'browsersync', ['sass', 'coffee', 'html'], ->
 g.task 'reload', ->
   reload()
 
-g.task 'sass', ->
+g.task 'sass', ['fonts'], ->
   $.rubySass 'dev/sass/',
-    style:'compressed'
+    # style:'compressed'
     loadPath:'bower_components/bootstrap-sass/assets/stylesheets/'
   .pipe $.plumber(errorHandler: $.notify.onError('<%= error.message %>'))
-  .pipe $.minifyCss()
+  # .pipe $.minifyCss()
   .pipe g.dest '.tmp/css'
   .pipe reload stream:true
+
+g.task 'fonts', ->
+  g.src ['bower_components/bootstrap-sass/assets/fonts/bootstrap/*']
+  .pipe g.dest '.tmp/fonts/bootstrap'
 
 g.task 'coffee', ->
   browserify
@@ -41,9 +45,9 @@ g.task 'coffee', ->
 
 g.task 'html', ->
   g.src 'dev/**/*.html'
-  .pipe g.dest('\.tmp')
+  .pipe g.dest('.tmp')
 
-g.task 'default', ['browsersync'], ->
+g.task 'default', ['clean','browsersync'], ->
   g.watch '.tmp/**/*', ['reload']
 
 g.task 'clean', del.bind(null, ['./.tmp'])
