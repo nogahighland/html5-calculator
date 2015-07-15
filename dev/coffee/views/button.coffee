@@ -23,6 +23,7 @@ module.exports = Backbone.View.extend
     _.bindAll @, 'click', 'mouseover', 'mouseout'
 
   render : ->
+    @$el.addClass('btn btn-default')
     @$el.text(@model.get 'value')
 
   click : ->

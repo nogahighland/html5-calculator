@@ -1,7 +1,8 @@
-Backbone        = require 'backbone', $ = require 'jquery', _ = require 'underscore'
-Button          = require './button'
-AppModel        = require '../models/app'
-Events          = require '../events/event'
+Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Display  = require './display'
+Button   = require './button'
+AppModel = require '../models/app'
+Events   = require '../events/event'
 
 # 電卓アプリ全体のビュー・コントローラ
 App = Backbone.View.extend
@@ -13,9 +14,23 @@ App = Backbone.View.extend
 
     _.bindAll @, 'clickDigit', 'clickClear', 'clickOperand', 'clickDot'
 
-    @model      = new AppModel()
+    @model   = new AppModel()
+    @render()
 
-    buttons = []
+    @model.on 'change:display', _.bind((model, value) ->
+      @display.update value
+    ,@)
+
+    Events.on 'click:digit', @clickDigit
+    Events.on 'click:dot', @clickDot
+    Events.on 'click:clear', @clickClear
+    Events.on 'click:operand', @clickOperand
+
+  # 初期描画
+  render : ->
+    @display = new Display()
+
+    buttons  = []
     # 数字
     for digit in [0..9]
       digitView = new Button(
@@ -87,21 +102,16 @@ App = Backbone.View.extend
 
     buttons = null
 
-    Events.on 'click:digit', @clickDigit
-    Events.on 'click:dot', @clickDot
-    Events.on 'click:clear', @clickClear
-    Events.on 'click:operand', @clickOperand
-
   clickDigit : (digit) ->
-    console.log digit
+    @model.updateFigure digit
 
   clickClear : ->
-    console.log 'clear'
+    @model.clear()
 
   clickOperand : (operand) ->
-    console.log operand
+    @model.updateOperand operand
 
   clickDot : ->
-    console.log 'dot'
+    @model.dot()
 
 new App()
