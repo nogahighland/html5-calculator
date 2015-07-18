@@ -1,111 +1,87 @@
-Backbone       = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Figure   = require './figure.coffee'
 
 # 電卓全体のモデルです。
 module.exports = class App extends Backbone.Model
 
   defaults :
-    # 演算子
-    operand      :null
     # 第一数値
-    firstFigure :null
+    firstFigure : null
     # 第二数値
-    secondFigure:null
+    secondFigure: null
     # 結果
-    result        :0
+    result      : null
     # 表示値
-    display      :null
+    display     : 0
+
+  initialize : ->
+    for attr in ['firstFigure', 'secondFigure', 'result']
+      @set attr, new Figure
 
   # 整数の入力のバリデートを行ってfirstFigure, secondFigure, displayを更新する
   updateFigure : (digit) ->
-    if !/\d/.test("#{digit}")
-      return
-
-    if @isEmpty()
-      @set
-      'firstFigure': digit
-      'display'    : digit
-
-    else if @isFirstFigureInputProgressing()
-      update = @get('firstFigure') + '' + digit
-      update *= 1
-      @set
-        'firstFigure': update
-        'display'    : update
-
-    else if @isWaitingForSecondFigure()
-      @set
-        'secondFigure': digit
-        'display'     : digit
-
-    else if @isSecondFigureInputProgressing()
-      update = @get('secondFigure') + '' + digit
-      update *= 1
-      @set
-        'secondFigure':update
-        'display'     : update
-
+    figure
+    if _.isEmpty @get('firstFigure').get('operand')
+      figure = @get 'firstFigure'
     else
-      @set 'display', 'unexpected!'
+      figure = @get 'secondFigure'
 
+    figure.addDigit(digit)
+    @set 'display', figure.getDisplayValue()
 
   # 初期値に対する演算子
   updateOperand: (operand) ->
+    f1     = @get 'firstFigure'
+    f2     = @get 'secondFigure'
+    result = @get 'result'
     if operand == '＝'
-      f1 = 0
-      f2 = 0
+      update
+      if !f1.isNew() and !f2.isNew()
+        update = f1.calculate(f2)
+      else
+        update = result.calculate(result.get 'secondFigure')
 
-      if @isWaitingForSecondFigure()
-        f1 = @get 'result'
-        f2 = @get 'firstFigure'
-
-      else if @isSecondFigureInputProgressing()
-        f1 = @get 'firstFigure'
-        f2 = @get 'secondFigure'
-
-      update = @calculate(f1, f2, @get('operand'))
-      @set 'display', update
       @set
-        'firstFigure' : f2
         'result'      : update
-        'secondFigure': null
-
+        'display'     : update.getDisplayValue()
+        'firstFigure' : new Figure
+        'secondFigure': new Figure
     else
+      if f1.isNew() and f2.isNew() and (result and result.isNew())
+        result.operand operand
+        @set
+          firstFigure:　result
+          result     :　null
 
-      @set 'operand', operand
+      if !f1.isNew() and !f2.isNew()
+        update = f1.calculate(f2)
 
-  # 小数点のバリデートを行ってfirstFigure, secondFigure, displayを更新する
-  dot          : ->
-    @set 'display', '.'
+        @set
+          'result'      : update
+          'display'     : update.getDisplayValue()
+          'firstFigure' :new Figure
+          'secondFigure':new Figure
+
+      else if f2.isNew()
+        f1.operand operand
+      else
+        f2.operand operand
+
+  dot : ->
+    figure
+    if (@get 'firstFigure').isNew()
+      figure = @get 'firstFigure'
+    else
+      figure = @get 'secondFigure'
+
+    figure.dot()
+    @set 'display', figure.getDisplayValue()
 
   # クリアする
-  clear        :->
+  clear : ->
     @set 'display', 0
-
-  # 状態判定
-
-  isEmpty : ->
-    @get('firstFigure') == null and @get('secondFigure') == null and @get('operand') == null
-
-  isFirstFigureInputProgressing: ->
-    @get('firstFigure') != null and @get('secondFigure') == null and @get('operand') == null
-
-  isWaitingForSecondFigure: ->
-    @get('firstFigure') != null and @get('secondFigure') == null and @get('operand') != null
-
-  isSecondFigureInputProgressing: ->
-    @get('firstFigure') != null and @get('secondFigure') != null and @get('operand') != null
-
-  calculate : (f1, f2, operand) ->
-    console.log "#{f1}#{operand}#{f2}"
-    switch operand
-      when '＋'
-        f1 + f2
-      when 'ー'
-        f1 - f2
-      when '×'
-        f1 * f2
-      when '÷'
-        f1 / f2
+    super()
+    @initialize()
 
   # 全てをクリアする
   # allClear     :->

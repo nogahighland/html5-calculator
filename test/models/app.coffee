@@ -1,8 +1,122 @@
-eq = (require 'assert').equal
-App = require '../../dev/coffee/models/app'
+eq      = (require 'assert').equal
+modelEq = (require './util.coffee').modelEq
+Figuer  = require '../../dev/coffee/models/figure'
+App     = require '../../dev/coffee/models/app'
 
-describe 'suite', () ->
-  it 'test', ()->
-    appModel = new App
-    # テストを書いていく
+plus     = '＋'
+minus    = 'ー'
+multiply = '×'
+devide   = '÷'
+equal    = '＝'
+clear    = 'C'
 
+describe 'シナリオ', () ->
+  it 'test1', () ->
+    app = new App
+    app.updateFigure 2
+
+    f1 = app.get 'firstFigure'
+    f2 = app.get 'secondFigure'
+    r  = app.get 'result'
+
+    modelEq f1, {
+      isNew : false
+      value : 2
+    }
+    modelEq f2, {}
+    modelEq r, {}
+    eq 2, app.get 'display'
+
+  it 'test2', () ->
+    app = new App
+    app.updateFigure 2
+    app.updateFigure 3
+
+    f1 = app.get 'firstFigure'
+    f2 = app.get 'secondFigure'
+    r  = app.get 'result'
+
+    modelEq f1, {
+      isNew : false
+      value : 23
+    }
+    modelEq f2, {}
+    modelEq r, {}
+    eq 23, app.get 'display'
+
+  it 'test3', () ->
+    app = new App
+    app.updateFigure 2
+    app.updateFigure 3
+    app.updateOperand plus
+
+    f1 = app.get 'firstFigure'
+    f2 = app.get 'secondFigure'
+    r  = app.get 'result'
+
+    modelEq f1, {
+      isNew  : false
+      value  : 23
+      operand:plus
+    }
+    modelEq f2, {}
+    modelEq r, {}
+    eq 23, app.get 'display'
+
+  it 'test4', () ->
+    app = new App
+    app.updateFigure 2
+    app.updateFigure 3
+    app.updateOperand plus
+    app.updateFigure 4
+
+    f1 = app.get 'firstFigure'
+    f2 = app.get 'secondFigure'
+    r  = app.get 'result'
+
+    modelEq f1, {
+      isNew  : false
+      value  : 23
+      operand:plus
+    }
+    modelEq f2, {
+      isNew : false
+      value : 4
+    }
+    modelEq r, {}
+    eq 4, app.get 'display'
+
+  it 'test5', () ->
+    app = new App
+    app.updateFigure 2
+    app.updateFigure 3
+    app.updateOperand plus
+    app.updateFigure 4
+    app.updateOperand equal
+
+    f1 = app.get 'firstFigure'
+    f2 = app.get 'secondFigure'
+    r  = app.get 'result'
+
+    modelEq f1, {}
+    modelEq f2, {}
+    eq 27, app.get 'display'
+
+  it 'test6', () ->
+    app = new App
+    app.updateFigure 2
+    app.updateFigure 3
+    app.updateOperand plus
+    app.updateFigure 4
+    app.updateOperand equal
+    app.updateOperand plus
+    app.updateFigure 9
+    app.updateOperand equal
+
+    f1 = app.get 'firstFigure'
+    f2 = app.get 'secondFigure'
+    r  = app.get 'result'
+
+    modelEq f1, {}
+    modelEq f2, {}
+    eq 36, app.get 'display'
