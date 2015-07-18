@@ -27,7 +27,8 @@ module.exports = class App extends Backbone.Model
       figure = @get 'secondFigure'
 
     figure.addDigit(digit)
-    @set 'display', figure.getDisplayValue()
+    if figure.isValid()
+      @set 'display', figure.getDisplayValue()
 
   # 初期値に対する演算子
   updateOperand: (operand) ->
@@ -41,11 +42,12 @@ module.exports = class App extends Backbone.Model
       else
         update = result.calculate(result.get 'secondFigure')
 
-      @set
-        'result'      : update
-        'display'     : update.getDisplayValue()
-        'firstFigure' : new Figure
-        'secondFigure': new Figure
+      if figure.isValid()
+        @set
+          'result'      : update
+          'display'     : update.getDisplayValue()
+          'firstFigure' : new Figure
+          'secondFigure': new Figure
 
     else
       if f1.isNew() and f2.isNew() and (result and result.isNew())
@@ -57,6 +59,7 @@ module.exports = class App extends Backbone.Model
       if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
 
+      if figure.isValid()
         @set
           'result'      : update
           'display'     : update.getDisplayValue()
@@ -76,7 +79,8 @@ module.exports = class App extends Backbone.Model
       figure = @get 'secondFigure'
 
     figure.dot()
-    @set 'display', figure.getDisplayValue()
+    if figure.isValid()
+      @set 'display', figure.getDisplayValue()
 
   invert : ->
     f1     = @get 'firstFigure'
@@ -89,8 +93,9 @@ module.exports = class App extends Backbone.Model
       f2.invert()
       update = f2
 
-    @set
-      'display'     : update.getDisplayValue()
+    if figure.isValid()
+      @set
+        'display'     : update.getDisplayValue()
 
   # クリアする
   clear : ->

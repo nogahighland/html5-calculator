@@ -1,4 +1,5 @@
-Backbone       = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Events   = require '../events/event'
 
 # 入力値
 module.exports = class Figure extends Backbone.Model
@@ -77,9 +78,15 @@ module.exports = class Figure extends Backbone.Model
 
   validate : ->
     value = @get('value')
-    return "#{value} is not a number" if  !_.isNumber(value)
-    return "value is NaN" if _.isNaN(value)
-    return "value is Infinite" if !_.isFinite(value)
+    error
+    error = "#{value} is not a number" if  !_.isNumber(value)
+    error = "value is NaN" if _.isNaN(value)
+    error = "value is Infinite" if !_.isFinite(value)
+
+    if error
+      console.error error
+      Events.trigger 'error:input', error
+      return error
 
   getDisplayValue : ->
     if /^\d+$/.test(@get 'value') and (@get 'dot')
