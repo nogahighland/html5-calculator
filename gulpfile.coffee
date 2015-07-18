@@ -44,7 +44,7 @@ g.task 'coffee', ->
     extensions : '.coffee'
     transform  : ['coffeeify', 'debowerify']
   .bundle()
-  .on 'error', $.util.log
+  .on 'error', $.util.log # リリース時はどうする？
   .pipe source 'app.js'
   .pipe buffer()
   # .pipe $.uglify()
@@ -72,18 +72,20 @@ g.task 'build', ['clean', 'sass', 'coffee', 'html'], ->
 	.pipe g.dest '.'
 
 g.task 'watch:test', ->
-  g.watch './test/models/app.coffee', ['test']
+  g.watch './test/**/*.coffee', ['test']
 
 # テストのみの実行
 g.task 'test', ->
   browserify
-    entries    : ['./test/models/app.coffee']
+    entries    : ['./test/models/figure.coffee']
     extensions : '.coffee'
     transform  : ['coffeeify', 'debowerify']
   .bundle()
+  .on 'error', $.util.log # リリース時はどうする？
   .pipe source 'app.js'
   .pipe g.dest './test/models/'
   .on 'end', ->
     g.src './test/models/app.js'
-    .pipe $.mocha reporter:'list'
-    .on 'error', $.util.log
+    .pipe $.mocha reporter:'spec'
+    .on 'error', ->
+      # $.util.log
