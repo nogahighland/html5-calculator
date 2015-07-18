@@ -8,6 +8,24 @@ module.exports = class Figure extends Backbone.Model
     value       : 0
     decimalPoint: 0
     isNew       : true
+    # 計算結果となった第一数値
+    firstFigure :null
+    # 計算結果となった第二数値
+    secondFigure:null
+    # 計算に使用された演算子
+    operand     :null
+
+  '＋' : (other) ->
+    @plus other
+
+  'ー' : (other) ->
+    @minus other
+
+  '×' : (other) ->
+    @multiply other
+
+  '÷' : (other) ->
+    @devide other
 
   initialize : (attrs) ->
     value = @get 'value'
@@ -76,17 +94,21 @@ module.exports = class Figure extends Backbone.Model
     else
       return @get 'value'
 
-  plus : (f2) ->
-    @get('value') + f2.get('value')
+  plus : (other) ->
+    newValue = @get('value') + other.get('value')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'＋')
 
-  minus : (f2) ->
-    @get('value') - f2.get('value')
+  minus : (other) ->
+    newValue = @get('value') - other.get('value')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'ー')
 
-  multiply : (f2) ->
-    @get('value') * f2.get('value')
+  multiply : (other) ->
+    newValue = @get('value') * other.get('value')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'×')
 
-  devide : (f2) ->
-    @get('value') / f2.get('value')
+  devide : (other) ->
+    newValue = @get('value') / other.get('value')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'÷')
 
   invert : ->
     @set 'value', @get('value') * -1
