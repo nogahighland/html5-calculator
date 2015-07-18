@@ -113,4 +113,4 @@ class App extends Backbone.View
   clickDot : ->
     @model.dot()
 
-new App()
+new App
