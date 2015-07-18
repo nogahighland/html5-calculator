@@ -79,9 +79,12 @@ module.exports = class Figure extends Backbone.Model
   validate : ->
     value = @get('value')
     error
-    error = "#{value} is not a number" if  !_.isNumber(value)
-    error = "value is NaN" if _.isNaN(value)
-    error = "value is Infinite" if !_.isFinite(value)
+    if  !_.isNumber(value)
+      error = "#{value} is not a number"
+    else if _.isNaN(value)
+      error = "value is NaN"
+    else if !_.isFinite(value)
+      error = "value is Infinite"
 
     if error
       console.error error
