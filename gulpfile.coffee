@@ -82,10 +82,10 @@ g.task 'test', ->
     transform  : ['coffeeify', 'debowerify']
   .bundle()
   .on 'error', $.util.log # リリース時はどうする？
-  .pipe source 'app.js'
+  .pipe source 'test.js'
   .pipe g.dest './test/models/'
   .on 'end', ->
-    g.src './test/models/app.js'
+    g.src './test/models/test.js'
     .pipe $.mocha reporter:'spec'
     .on 'error', ->
       # $.util.log
