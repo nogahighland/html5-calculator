@@ -15,6 +15,7 @@ g.task 'browsersync', ['sass', 'coffee', 'html'], ->
   g.watch 'dev/coffee/**/*.coffee' , ['coffee']
   g.watch 'dev/sass/**/*.sass' , ['sass']
   g.watch 'dev/**/*.html' , ['html']
+  g.watch 'test/models/*.coffee' , ['test']
 
 g.task 'reload', ->
   reload()
@@ -32,7 +33,7 @@ g.task 'fonts', ->
   g.src ['bower_components/bootstrap-sass/assets/fonts/bootstrap/*']
   .pipe g.dest '.tmp/fonts/bootstrap'
 
-g.task 'coffee', ->
+g.task 'coffee', ['test'], ->
   browserify
     entries    : ['./dev/coffee/views/app.coffee']
     extensions : '.coffee'
@@ -61,7 +62,6 @@ g.task 'build', ['clean', 'sass', 'coffee', 'html'], ->
 	.pipe g.dest '.'
 
 g.task 'test', ->
-
   browserify
     entries    : ['./test/models/app.coffee']
     extensions : '.coffee'
