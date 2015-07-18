@@ -12,10 +12,10 @@ g.task 'browsersync', ['sass', 'coffee', 'html'], ->
   b
     server:
     	baseDir:'.tmp/'
-  g.watch 'dev/coffee/**/*.coffee' , ['coffee']
-  g.watch 'dev/sass/**/*.sass' , ['sass']
-  g.watch 'dev/**/*.html' , ['html']
-  g.watch 'test/models/*.coffee' , ['test']
+  g.watch './dev/coffee/**/*.coffee' , ['coffee']
+  g.watch './dev/sass/**/*.sass' , ['sass']
+  g.watch './dev/**/*.html' , ['html']
+  g.watch './test/models/*.coffee' , ['test']
 
 g.task 'reload', ->
   reload()
@@ -53,7 +53,7 @@ g.task 'html', ->
 g.task 'default', ['browsersync'], ->
   g.watch '.tmp/**/*', ['reload']
 
-g.task 'clean', del.bind null, ['./.tmp']
+g.task 'clean', del.bind null, ['./.tmp', './test/models/app.js']
 
 g.task 'build', ['clean', 'sass', 'coffee', 'html'], ->
 	g.src '.tmp/**/*'
@@ -69,6 +69,6 @@ g.task 'test', ->
   .bundle()
   .pipe source 'app.js'
   .pipe g.dest './test/models/'
-
-  g.src './test/models/app.js'
-  .pipe $.mocha reporter:'nyan'
+  .on 'end', ->
+    g.src './test/models/app.js'
+    .pipe $.mocha reporter:'list'
