@@ -77,7 +77,7 @@ g.task 'watch:test', ->
 # テストのみの実行
 g.task 'test', ->
   browserify
-    entries    : ['./test/models/figure.coffee']
+    entries    : ['./test/models/figure.coffee', './test/models/app.coffee']
     extensions : '.coffee'
     transform  : ['coffeeify', 'debowerify']
   .bundle()
