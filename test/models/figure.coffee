@@ -63,6 +63,11 @@ describe '数字入力のテスト', ->
       isNew       :false
     }
 
+  it '0.1111111111→1', ->
+    figure = new Figure(value:0.1111111111, decimalPoint:11, dot:true)
+    figure.addDigit 1
+    eq 0.11111111111, figure.get 'value'
+
 describe '文字列入力のテスト', ->
 
   it '空→1', ->
@@ -144,11 +149,6 @@ describe '削除のテスト', ->
     figure.delete()
     eq 12, figure.get 'value'
 
-  it '0.1111111111→1', ->
-    figure = new Figure(value:0.1111111111, decimalPoint:11, dot:true)
-    figure.addDigit 1
-    eq 0.11111111111, figure.get 'value'
-
 describe '異常値', ->
   it 'Infinite', ->
     figure = new Figure
@@ -188,7 +188,7 @@ describe '計算', ->
     f1 = new Figure(value:10)
     f2 = new Figure(value:2)
 
-    eq 20, f1.multiple(f2)
+    eq 20, f1.multiply(f2)
 
   it '割り算(10/2)', ->
     f1 = new Figure(value:10)

@@ -78,7 +78,7 @@ module.exports = class Figure extends Backbone.Model
   minus : (f2) ->
     @get('value') - f2.get('value')
 
-  multiple : (f2) ->
+  multiply : (f2) ->
     @get('value') * f2.get('value')
 
   devide : (f2) ->
