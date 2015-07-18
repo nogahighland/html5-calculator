@@ -9,9 +9,14 @@ module.exports = class Figure extends Backbone.Model
     decimalPoint: 0
     isNew       : true
 
-  initialize : ->
-    @on 'change:value', (model, value, option)->
-      # console.log "passed value is #{value}"
+  initialize : (attrs) ->
+    value = @get 'value'
+    values = "#{value}".split '.'
+    console.log values
+    if values.length == 2
+      @set
+        'dot'          : true
+        'decimalPoint' : values[1].length + 1
 
   addDigit : (digit) ->
     @set 'isNew', false

@@ -231,3 +231,18 @@ describe 'シナリオテスト', ->
       value       : -122.5
       isNew       :false
     }
+
+describe 'コンストラクタ', ->
+  it '123', ->
+    figure = new Figure value:123
+    modelEq figure, {
+      value : 123
+    }
+
+  it '123.456', ->
+    figure = new Figure value:123.456
+    modelEq figure, {
+      dot         : true
+      decimalPoint: 4
+      value       : 123.456
+    }
