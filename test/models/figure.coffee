@@ -246,3 +246,10 @@ describe 'コンストラクタ', ->
       decimalPoint: 4
       value       : 123.456
     }
+    figure.addDigit 7
+    modelEq figure, {
+      isNew       : false
+      dot         : true
+      decimalPoint: 5
+      value       : 123.4567
+    }
