@@ -11,9 +11,9 @@ class App extends Backbone.View
 
   # 初期化処理
   initialize : ->
-    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperand', 'clickDot'
+    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperand', 'clickDot', 'clickInvert'
 
-    @model   = new AppModel()
+    @model = new AppModel()
     @render()
 
     @model.on 'change:display', _.bind((model, value) ->
@@ -24,93 +24,105 @@ class App extends Backbone.View
     Events.on 'click:dot', @clickDot
     Events.on 'click:clear', @clickClear
     Events.on 'click:operand', @clickOperand
+    Events.on 'click:invert', @clickInvert
 
   # 初期描画
   render : ->
-    @display = new Display()
+    @display    = new Display()
 
-    buttons  = []
+    buttons     = []
     # 数字
     for digit in [0..9]
       digitView = new Button(
-        el : "#digit-#{digit}.digit"
-        model : new Backbone.Model(value:digit)
+        el        : "#digit-#{digit}.digit"
+        model     : new Backbone.Model(value:digit)
         eventName : 'digit'
       )
       buttons.push digitView
 
     # 演算子
     ## +
-    @plus = new Button(
-      el : '#plus.operand'
-      model : new Backbone.Model(value:'＋')
+    @plus       = new Button(
+      el        : '#plus.operand'
+      model     : new Backbone.Model(value:'＋')
       eventName : 'operand'
     )
     buttons.push @plus
 
     ## -
-    @minus = new Button(
-      el : '#minus.operand'
-      model : new Backbone.Model(value:'ー')
+    @minus      = new Button(
+      el        : '#minus.operand'
+      model     : new Backbone.Model(value:'ー')
       eventName : 'operand'
     )
     buttons.push @minus
 
     ## *
-    @multiply = new Button(
-      el : '#multiply.operand'
-      model : new Backbone.Model(value:'×')
+    @multiply   = new Button(
+      el        : '#multiply.operand'
+      model     : new Backbone.Model(value:'×')
       eventName : 'operand'
     )
     buttons.push @multiply
 
     ## /
-    @devide = new Button(
-      el : '#devide.operand'
-      model : new Backbone.Model(value:'÷')
+    @devide     = new Button(
+      el        : '#devide.operand'
+      model     : new Backbone.Model(value:'÷')
       eventName : 'operand'
     )
     buttons.push @devide
 
     ## /
-    @equal = new Button(
-      el : '#equal.operand'
-      model : new Backbone.Model(value:'＝')
+    @equal      = new Button(
+      el        : '#equal.operand'
+      model     : new Backbone.Model(value:'＝')
       eventName : 'operand'
     )
     buttons.push @equal
 
     # ドット
-    @dot = new Button(
-      el : '#dot.operand'
-      model : new Backbone.Model(value:'.')
+    @dot        = new Button(
+      el        : '#dot.operand'
+      model     : new Backbone.Model(value:'.')
       eventName : 'dot'
     )
     buttons.push @dot
 
     # クリア
-    @clear = new Button(
-      el : '#clear.operand'
-      model : new Backbone.Model(value:'C')
+    @clear      = new Button(
+      el        : '#clear.operand'
+      model     : new Backbone.Model(value:'C')
       eventName : 'clear'
     )
     buttons.push @clear
+
+    # クリア
+    @invert     = new Button(
+      el        : '#invert.operand'
+      model     : new Backbone.Model(value:'+/-')
+      eventName : 'invert'
+    )
+    buttons.push @invert
 
     for button in buttons
       button.render()
 
     buttons = null
 
-  clickDigit : (digit) ->
+  clickDigit   : (digit) ->
     @model.updateFigure digit
 
-  clickClear : ->
+  clickClear   : ->
     @model.clear()
 
   clickOperand : (operand) ->
     @model.updateOperand operand
 
-  clickDot : ->
+  clickDot     : ->
     @model.dot()
+
+  clickInvert  : ->
+    @model.invert()
 
 new App

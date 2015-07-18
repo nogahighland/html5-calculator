@@ -46,6 +46,7 @@ module.exports = class App extends Backbone.Model
         'display'     : update.getDisplayValue()
         'firstFigure' : new Figure
         'secondFigure': new Figure
+
     else
       if f1.isNew() and f2.isNew() and (result and result.isNew())
         result.operand operand
@@ -76,6 +77,20 @@ module.exports = class App extends Backbone.Model
 
     figure.dot()
     @set 'display', figure.getDisplayValue()
+
+  invert : ->
+    f1     = @get 'firstFigure'
+    f2     = @get 'secondFigure'
+    update
+    if !f1.isNew()
+      f1.invert()
+      update = f1
+    else
+      f2.invert()
+      update = f2
+
+    @set
+      'display'     : update.getDisplayValue()
 
   # クリアする
   clear : ->
