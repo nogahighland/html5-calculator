@@ -1,8 +1,9 @@
-Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
-Display  = require './display'
-Button   = require './button'
-AppModel = require '../models/app'
-Events   = require '../events/event'
+Backbone   = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Display    = require './display'
+Button     = require './button'
+KeyControl = require './key-control'
+AppModel   = require '../models/app'
+Events     = require '../events/event'
 
 # 電卓アプリ全体のビュー・コントローラ
 class App extends Backbone.View
@@ -25,10 +26,12 @@ class App extends Backbone.View
     Events.on 'click:clear', @clickClear
     Events.on 'click:operand', @clickOperand
     Events.on 'click:invert', @clickInvert
+  # キーコントロール
+  @keyControl = new KeyControl
 
   # 初期描画
   render : ->
-    @display    = new Display()
+    @display    = new Display
 
     buttons     = []
     # 数字

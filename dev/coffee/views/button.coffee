@@ -14,13 +14,16 @@ module.exports = class Button extends Backbone.View
   tagName : 'button'
 
   events :
-    'click' : 'click'
+    'click'     : 'click'
     'mouseover' : 'mouseover'
-    'mouseout' : 'mouseout'
+    'mouseout'  : 'mouseout'
 
   initialize : (params) ->
     @eventName = params.eventName
-    _.bindAll @, 'click', 'mouseover', 'mouseout'
+    _.bindAll @, 'click', 'mouseover', 'mouseout', 'keypress'
+    Events.on 'keypress:digit', @keypress
+    Events.on 'keypress:operand', @keypress
+    Events.on 'keypress:dot', @keypress
 
   render : ->
     @$el.addClass('btn btn-default')
@@ -32,3 +35,7 @@ module.exports = class Button extends Backbone.View
   mouseover : ->
 
   mouseout : ->
+
+  keypress : (value) ->
+    if value == @model.get 'value'
+      @click()
