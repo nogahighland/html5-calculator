@@ -1,5 +1,6 @@
 Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
-module.exports = Backbone.View.extend
+
+module.exports = class Display extents Backbone.View
 
   el : '#display'
 

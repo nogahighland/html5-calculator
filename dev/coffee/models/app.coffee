@@ -1,7 +1,7 @@
 Backbone       = require 'backbone', $ = require 'jquery', _ = require 'underscore'
 
 # 電卓全体のモデルです。
-module.exports = Backbone.Model.extend
+module.exports = class App extends Backbone.Model
 
   defaults :
     # 演算子

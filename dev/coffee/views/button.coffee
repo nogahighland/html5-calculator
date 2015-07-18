@@ -9,7 +9,7 @@ Events = require '../events/event'
 #     - ボタンに表示される値
 #   - eventName:
 #     クリック時のイベント名に反映されます。
-module.exports = Backbone.View.extend
+module.exports = class Button extents Backbone.View
 
   tagName : 'button'
 

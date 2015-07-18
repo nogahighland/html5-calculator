@@ -5,7 +5,7 @@ AppModel = require '../models/app'
 Events   = require '../events/event'
 
 # 電卓アプリ全体のビュー・コントローラ
-App = Backbone.View.extend
+class App extents Backbone.View
 
   el : '#wrapper'
 
