@@ -7,13 +7,15 @@ module.exports = class Figure extends Backbone.Model
     dot         : false
     value       : 0
     decimalPoint: 0
+    isNew       : true
 
   initialize : ->
     @on 'change:value', (model, value, option)->
       # console.log "passed value is #{value}"
 
-
   addDigit : (digit) ->
+    @set 'isNew', false
+
     if !/\d/.test(digit)
       console.error "#{digit} is not a digit."
       return
@@ -33,9 +35,10 @@ module.exports = class Figure extends Backbone.Model
     if @get('dot')
       console.error 'already dotted.'
       return
-
-    @set 'dot', true
-    @set 'decimalPoint', 1
+    @set
+      'dot'         : true
+      'decimalPoint': 1
+      'isNew'       : false
 
   delete : ->
     if @get 'dot'
@@ -55,13 +58,19 @@ module.exports = class Figure extends Backbone.Model
 
   # @Override
   isNew : ->
-    !!@previous()
+    @get 'isNew'
 
   validate : ->
     value = @get('value')
     return "#{value} is not a number" if  !_.isNumber(value)
     return "value is NaN" if _.isNaN(value)
     return "value is Infinite" if !_.isFinite(value)
+
+  getDisplayValue : ->
+    if /^\d+$/.test(@get 'value') and (@get 'dot')
+      return (@get 'value') + '.'
+    else
+      return @get 'value'
 
   plus : (f2) ->
     @get('value') + f2.get('value')

@@ -12,8 +12,8 @@ describe '数字入力のテスト', ->
     ok figure.isValid()
     modelEq figure, {
       value : 1
+      isNew :false
     }
-    eq false, figure.isNew()
 
   it '1→2', ->
     figure = new Figure(value:1)
@@ -22,8 +22,8 @@ describe '数字入力のテスト', ->
     ok figure.isValid()
     modelEq figure, {
       value : 12
+      isNew :false
     }
-    eq false, figure.isNew()
 
   it '1.→2', ->
     figure = new Figure(value:1, dot:true, decimalPoint:1)
@@ -34,8 +34,8 @@ describe '数字入力のテスト', ->
       dot         :true
       decimalPoint:2
       value       : 1.2
+      isNew       :false
     }
-    eq false, figure.isNew()
 
   it '.→2', ->
     figure = new Figure(dot:true, decimalPoint:1)
@@ -46,8 +46,8 @@ describe '数字入力のテスト', ->
       dot         :true
       decimalPoint:2
       value       : 0.2
+      isNew       :false
     }
-    eq false, figure.isNew()
 
   it '.→2→3', ->
     figure = new Figure(dot:true, decimalPoint:1)
@@ -60,9 +60,8 @@ describe '数字入力のテスト', ->
       dot         :true
       decimalPoint:3
       value       : 0.23
+      isNew       :false
     }
-    eq false, figure.isNew()
-
 
 describe '文字列入力のテスト', ->
 
@@ -72,8 +71,8 @@ describe '文字列入力のテスト', ->
     ok figure.isValid()
     modelEq figure, {
       value : 1
+      isNew :false
     }
-    eq false, figure.isNew()
 
   it '1→2', ->
     figure = new Figure(value:1)
@@ -82,8 +81,8 @@ describe '文字列入力のテスト', ->
     ok figure.isValid()
     modelEq figure, {
       value : 12
+      isNew :false
     }
-    eq false, figure.isNew()
 
   it '1.→2', ->
     figure = new Figure(value:1, dot:true, decimalPoint:1)
@@ -94,8 +93,8 @@ describe '文字列入力のテスト', ->
       dot         : true
       decimalPoint: 2
       value       : 1.2
+      isNew       :false
     }
-    eq false, figure.isNew()
 
   it '.→2', ->
     figure = new Figure(dot:true, decimalPoint:1)
@@ -106,8 +105,8 @@ describe '文字列入力のテスト', ->
       dot         : true
       decimalPoint: 2
       value       : 0.2
+      isNew       :false
     }
-    eq false, figure.isNew()
 
   it '.→2→3', ->
     figure = new Figure(dot:true,decimalPoint:1)
@@ -120,8 +119,8 @@ describe '文字列入力のテスト', ->
       dot         : true
       decimalPoint: 3
       value       : 0.23
+      isNew       :false
     }
-    eq false, figure.isNew()
 
 describe '削除のテスト', ->
 
@@ -144,6 +143,11 @@ describe '削除のテスト', ->
     figure = new Figure(value:123)
     figure.delete()
     eq 12, figure.get 'value'
+
+  it '0.1111111111→1', ->
+    figure = new Figure(value:0.1111111111, decimalPoint:11, dot:true)
+    figure.addDigit 1
+    eq 0.11111111111, figure.get 'value'
 
 describe '異常値', ->
   it 'Infinite', ->
@@ -225,4 +229,5 @@ describe 'シナリオテスト', ->
       decimalPoint: 2
       dot         : true
       value       : -122.5
+      isNew       :false
     }
