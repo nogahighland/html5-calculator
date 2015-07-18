@@ -5,13 +5,12 @@ AppModel = require '../models/app'
 Events   = require '../events/event'
 
 # 電卓アプリ全体のビュー・コントローラ
-class App extents Backbone.View
+class App extends Backbone.View
 
   el : '#wrapper'
 
   # 初期化処理
   initialize : ->
-
     _.bindAll @, 'clickDigit', 'clickClear', 'clickOperand', 'clickDot'
 
     @model   = new AppModel()
