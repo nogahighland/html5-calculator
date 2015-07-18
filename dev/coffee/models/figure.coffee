@@ -19,8 +19,8 @@ module.exports = class Figure extends Backbone.Model
       return
 
     if @get('dot')
-      @set 'decimalPoint', @get('decimalPoint') + 1
       digit = digit * Math.pow 0.1, @get('decimalPoint')
+      @set 'decimalPoint', @get('decimalPoint') + 1
       @set 'value', @get('value') + digit
 
     else
@@ -35,8 +35,18 @@ module.exports = class Figure extends Backbone.Model
       return
 
     @set 'dot', true
+    @set 'decimalPoint', 1
 
   delete : ->
+    if @get 'dot'
+      point = @get('decimalPoint') - 1
+      if point >= 0
+        @set 'decimalPoint', point
+
+      if point <= 0
+        @set 'decimalPoint', 0
+        @set 'dot', false
+
     value = @get 'value'
     if !value
       return
@@ -52,3 +62,18 @@ module.exports = class Figure extends Backbone.Model
     return "#{value} is not a number" if  !_.isNumber(value)
     return "value is NaN" if _.isNaN(value)
     return "value is Infinite" if !_.isFinite(value)
+
+  plus : (f2) ->
+    @get('value') + f2.get('value')
+
+  minus : (f2) ->
+    @get('value') - f2.get('value')
+
+  multiple : (f2) ->
+    @get('value') * f2.get('value')
+
+  devide : (f2) ->
+    @get('value') / f2.get('value')
+
+  invert : ->
+    @set 'value', @get('value') * -1
