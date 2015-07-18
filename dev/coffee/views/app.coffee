@@ -26,8 +26,9 @@ class App extends Backbone.View
     Events.on 'click:clear', @clickClear
     Events.on 'click:operand', @clickOperand
     Events.on 'click:invert', @clickInvert
-  # キーコントロール
-  @keyControl = new KeyControl
+
+    # キーコントロール
+    @keyControl = new KeyControl
 
   # 初期描画
   render : ->
