@@ -44,9 +44,10 @@ g.task 'coffee', ->
     extensions : '.coffee'
     transform  : ['coffeeify', 'debowerify']
   .bundle()
+  .on 'error', $.util.log
   .pipe source 'app.js'
   .pipe buffer()
-  .pipe $.uglify()
+  # .pipe $.uglify()
   .pipe g.dest '.tmp/js'
   .pipe reload stream:true
 
@@ -70,6 +71,9 @@ g.task 'build', ['clean', 'sass', 'coffee', 'html'], ->
 	.pipe $.gzip()
 	.pipe g.dest '.'
 
+g.task 'watch:test', ->
+  g.watch './test/models/app.coffee', ['test']
+
 # テストのみの実行
 g.task 'test', ->
   browserify
@@ -82,3 +86,4 @@ g.task 'test', ->
   .on 'end', ->
     g.src './test/models/app.js'
     .pipe $.mocha reporter:'list'
+    .on 'error', $.util.log
