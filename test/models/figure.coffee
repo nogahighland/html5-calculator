@@ -174,33 +174,38 @@ describe '異常値', ->
 describe '計算', ->
   it '足し算', ->
     f1 = new Figure(value:1)
+    f1.operand '＋'
     f2 = new Figure(value:2)
     expect = new Figure(value:3, firstFigure:f1, secondFigure:f2, operand:'＋')
-    modelEq expect, f1.plus(f2).toJSON()
+    modelEq expect, f1.calculate(f2).toJSON()
 
   it '引き算', ->
     f1 = new Figure(value:1)
+    f1.operand 'ー'
     f2 = new Figure(value:2)
     expect = new Figure(value:-1, firstFigure:f1, secondFigure:f2, operand:'ー')
-    modelEq expect, f1.minus(f2).toJSON()
+    modelEq expect, f1.calculate(f2).toJSON()
 
   it '掛け算', ->
     f1 = new Figure(value:10)
     f2 = new Figure(value:2)
+    f1.operand '×'
     expect = new Figure(value:20, firstFigure:f1, secondFigure:f2, operand:'×')
-    modelEq expect, f1.multiply(f2).toJSON()
+    modelEq expect, f1.calculate(f2).toJSON()
 
   it '割り算(10/2)', ->
     f1 = new Figure(value:10)
     f2 = new Figure(value:2)
+    f1.operand '÷'
     expect = new Figure(value:5, firstFigure:f1, secondFigure:f2, operand:'÷')
-    modelEq expect, f1.devide(f2).toJSON()
+    modelEq expect, f1.calculate(f2).toJSON()
 
   it '割り算(2/10)', ->
     f1 = new Figure(value:2)
     f2 = new Figure(value:10)
+    f1.operand '÷'
     expect = new Figure(value:0.2, firstFigure:f1, secondFigure:f2, operand:'÷', decimalPoint:2, dot:true)
-    modelEq expect, f1.devide(f2).toJSON()
+    modelEq expect, f1.calculate(f2).toJSON()
 
   it '反転', ->
     figure = new Figure(value:10)

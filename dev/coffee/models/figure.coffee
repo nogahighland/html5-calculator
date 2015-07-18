@@ -12,20 +12,8 @@ module.exports = class Figure extends Backbone.Model
     firstFigure :null
     # 計算結果となった第二数値
     secondFigure:null
-    # 計算に使用された演算子
+    # 計算に使用される演算子
     operand     :null
-
-  '＋' : (other) ->
-    @plus other
-
-  'ー' : (other) ->
-    @minus other
-
-  '×' : (other) ->
-    @multiply other
-
-  '÷' : (other) ->
-    @devide other
 
   initialize : (attrs) ->
     value = @get 'value'
@@ -62,6 +50,11 @@ module.exports = class Figure extends Backbone.Model
       'decimalPoint': 1
       'isNew'       : false
 
+  operand :(operand) ->
+    @set
+      'operand'     : operand
+      'isNew'       : false
+
   delete : ->
     if @get 'dot'
       point = @get('decimalPoint') - 1
@@ -93,6 +86,17 @@ module.exports = class Figure extends Backbone.Model
       return (@get 'value') + '.'
     else
       return @get 'value'
+
+  calculate : (other) ->
+    switch @get 'operand'
+      when '＋'
+        return @plus other
+      when 'ー'
+        return @minus other
+      when '×'
+        return @multiply other
+      when '÷'
+        return @devide other
 
   plus : (other) ->
     newValue = @get('value') + other.get('value')
