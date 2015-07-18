@@ -38,4 +38,7 @@ module.exports = class Button extends Backbone.View
 
   keypress : (value) ->
     if value == @model.get 'value'
+      @$el.addClass 'btn-primary'
       @click()
+    else
+      @$el.removeClass 'btn-primary'
