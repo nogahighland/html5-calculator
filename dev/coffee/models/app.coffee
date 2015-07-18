@@ -42,7 +42,7 @@ module.exports = class App extends Backbone.Model
       else
         update = result.calculate(result.get 'secondFigure')
 
-      if figure.isValid()
+      if update.isValid()
         @set
           'result'      : update
           'display'     : update.getDisplayValue()
@@ -59,12 +59,12 @@ module.exports = class App extends Backbone.Model
       if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
 
-      if figure.isValid()
-        @set
-          'result'      : update
-          'display'     : update.getDisplayValue()
-          'firstFigure' :new Figure
-          'secondFigure':new Figure
+        if update.isValid()
+          @set
+            'result'      : update
+            'display'     : update.getDisplayValue()
+            'firstFigure' :new Figure
+            'secondFigure':new Figure
 
       else if f2.isNew()
         f1.operand operand
