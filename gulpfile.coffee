@@ -13,7 +13,7 @@ g.task 'browsersync', ['sass', 'coffee', 'html'], ->
   b
     server:
     	baseDir:'.tmp/'
-  g.watch './dev/coffee/**/*.coffee', ['coffee', 'test']
+  g.watch './dev/coffee/**/*.coffee', ['coffee']
   g.watch './test/models/*.coffee', ['test']
   g.watch './dev/sass/**/*.sass', ['sass']
   g.watch './dev/**/*.html', ['html']
