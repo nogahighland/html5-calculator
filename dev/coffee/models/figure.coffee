@@ -14,7 +14,7 @@ module.exports = class Figure extends Backbone.Model
     # 計算結果となった第二数値
     secondFigure:null
     # 計算に使用される演算子
-    operand     :null
+    operator     :null
 
   initialize : (attrs) ->
     value = @get 'value'
@@ -51,9 +51,9 @@ module.exports = class Figure extends Backbone.Model
       'decimalPoint': 1
       'isNew'       : false
 
-  operand :(operand) ->
+  operator :(operator) ->
     @set
-      'operand'     : operand
+      'operator'     : operator
       'isNew'       : false
 
   delete : ->
@@ -113,7 +113,7 @@ module.exports = class Figure extends Backbone.Model
       return splitted
 
   calculate : (other) ->
-    switch @get 'operand'
+    switch @get 'operator'
       when '＋'
         return @plus other
       when 'ー'
@@ -125,19 +125,19 @@ module.exports = class Figure extends Backbone.Model
 
   plus : (other) ->
     newValue = @get('value') + other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'＋')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'＋')
 
   minus : (other) ->
     newValue = @get('value') - other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'ー')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'ー')
 
   multiply : (other) ->
     newValue = @get('value') * other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'×')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'×')
 
   devide : (other) ->
     newValue = @get('value') / other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operand:'÷')
+    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'÷')
 
   invert : ->
     @set 'value', @get('value') * -1

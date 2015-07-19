@@ -12,7 +12,7 @@ class App extends Backbone.View
 
   # 初期化処理
   initialize : ->
-    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperand', 'clickDot', 'clickInvert'
+    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperator', 'clickDot', 'clickInvert'
 
     @model = new AppModel()
     @render()
@@ -24,7 +24,7 @@ class App extends Backbone.View
     Events.on 'click:digit', @clickDigit
     Events.on 'click:dot', @clickDot
     Events.on 'click:clear', @clickClear
-    Events.on 'click:operand', @clickOperand
+    Events.on 'click:operator', @clickOperator
     Events.on 'click:invert', @clickInvert
 
     # キーコントロール
@@ -47,47 +47,47 @@ class App extends Backbone.View
     # 演算子
     ## +
     @plus       = new Button(
-      el        : '#plus.operand'
+      el        : '#plus.operator'
       model     : new Backbone.Model(value:'＋')
-      eventName : 'operand'
+      eventName : 'operator'
     )
     buttons.push @plus
 
     ## -
     @minus      = new Button(
-      el        : '#minus.operand'
+      el        : '#minus.operator'
       model     : new Backbone.Model(value:'ー')
-      eventName : 'operand'
+      eventName : 'operator'
     )
     buttons.push @minus
 
     ## *
     @multiply   = new Button(
-      el        : '#multiply.operand'
+      el        : '#multiply.operator'
       model     : new Backbone.Model(value:'×')
-      eventName : 'operand'
+      eventName : 'operator'
     )
     buttons.push @multiply
 
     ## /
     @devide     = new Button(
-      el        : '#devide.operand'
+      el        : '#devide.operator'
       model     : new Backbone.Model(value:'÷')
-      eventName : 'operand'
+      eventName : 'operator'
     )
     buttons.push @devide
 
     ## /
     @equal      = new Button(
-      el        : '#equal.operand'
+      el        : '#equal.operator'
       model     : new Backbone.Model(value:'＝')
-      eventName : 'operand'
+      eventName : 'operator'
     )
     buttons.push @equal
 
     # ドット
     @dot        = new Button(
-      el        : '#dot.operand'
+      el        : '#dot.operator'
       model     : new Backbone.Model(value:'.')
       eventName : 'dot'
     )
@@ -95,7 +95,7 @@ class App extends Backbone.View
 
     # クリア
     @clear      = new Button(
-      el        : '#clear.operand'
+      el        : '#clear.operator'
       model     : new Backbone.Model(value:'C')
       eventName : 'clear'
     )
@@ -103,7 +103,7 @@ class App extends Backbone.View
 
     # クリア
     @invert     = new Button(
-      el        : '#invert.operand'
+      el        : '#invert.operator'
       model     : new Backbone.Model(value:'+/-')
       eventName : 'invert'
     )
@@ -120,8 +120,8 @@ class App extends Backbone.View
   clickClear   : ->
     @model.clear()
 
-  clickOperand : (operand) ->
-    @model.updateOperand operand
+  clickOperator : (operator) ->
+    @model.updateOperator operator
 
   clickDot     : ->
     @model.dot()

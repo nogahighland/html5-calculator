@@ -21,7 +21,7 @@ module.exports = class App extends Backbone.Model
   # 整数の入力のバリデートを行ってfirstFigure, secondFigure, displayを更新する
   updateFigure : (digit) ->
     figure
-    if _.isEmpty @get('firstFigure').get('operand')
+    if _.isEmpty @get('firstFigure').get('operator')
       figure = @get 'firstFigure'
     else
       figure = @get 'secondFigure'
@@ -31,11 +31,11 @@ module.exports = class App extends Backbone.Model
       @set 'display', figure.getDisplayValue()
 
   # 初期値に対する演算子
-  updateOperand: (operand) ->
+  updateOperator: (operator) ->
     f1     = @get 'firstFigure'
     f2     = @get 'secondFigure'
     result = @get 'result'
-    if operand == '＝'
+    if operator == '＝'
       update
       if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
@@ -51,7 +51,7 @@ module.exports = class App extends Backbone.Model
 
     else
       if f1.isNew() and f2.isNew() and (result and result.isNew())
-        result.operand operand
+        result.operator operator
         @set
           firstFigure:　result
           result     :　null
@@ -67,9 +67,9 @@ module.exports = class App extends Backbone.Model
             'secondFigure':new Figure
 
       else if f2.isNew()
-        f1.operand operand
+        f1.operator operator
       else
-        f2.operand operand
+        f2.operator operator
 
   dot : ->
     figure

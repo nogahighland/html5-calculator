@@ -48,7 +48,7 @@ describe 'シナリオ', () ->
     app = new App
     app.updateFigure 2
     app.updateFigure 3
-    app.updateOperand plus
+    app.updateOperator plus
 
     f1 = app.get 'firstFigure'
     f2 = app.get 'secondFigure'
@@ -57,7 +57,7 @@ describe 'シナリオ', () ->
     modelEq f1, {
       isNew  : false
       value  : 23
-      operand:plus
+      operator:plus
     }
     modelEq f2, {}
     modelEq r, {}
@@ -67,7 +67,7 @@ describe 'シナリオ', () ->
     app = new App
     app.updateFigure 2
     app.updateFigure 3
-    app.updateOperand plus
+    app.updateOperator plus
     app.updateFigure 4
 
     f1 = app.get 'firstFigure'
@@ -77,7 +77,7 @@ describe 'シナリオ', () ->
     modelEq f1, {
       isNew  : false
       value  : 23
-      operand:plus
+      operator:plus
     }
     modelEq f2, {
       isNew : false
@@ -90,9 +90,9 @@ describe 'シナリオ', () ->
     app = new App
     app.updateFigure 2
     app.updateFigure 3
-    app.updateOperand plus
+    app.updateOperator plus
     app.updateFigure 4
-    app.updateOperand equal
+    app.updateOperator equal
 
     f1 = app.get 'firstFigure'
     f2 = app.get 'secondFigure'
@@ -106,12 +106,12 @@ describe 'シナリオ', () ->
     app = new App
     app.updateFigure 2
     app.updateFigure 3
-    app.updateOperand plus
+    app.updateOperator plus
     app.updateFigure 4
-    app.updateOperand equal
-    app.updateOperand plus
+    app.updateOperator equal
+    app.updateOperator plus
     app.updateFigure 9
-    app.updateOperand equal
+    app.updateOperator equal
 
     f1 = app.get 'firstFigure'
     f2 = app.get 'secondFigure'
