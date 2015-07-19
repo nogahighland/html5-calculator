@@ -1,5 +1,8 @@
-Backbone   = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+Backbone   = require 'backbone', window.jQuery = $ = require 'jquery', _ = require 'underscore'
+bootstrap  = (require 'bootstrap-sass')
+
 Display    = require './display'
+ErrorView  = require './error'
 Button     = require './button'
 KeyControl = require './key-control'
 AppModel   = require '../models/app'
@@ -36,9 +39,10 @@ class App extends Backbone.View
 
   # 初期描画
   render : ->
-    @display    = new Display
+    @display = new Display
+    @error   = new ErrorView
 
-    buttons     = []
+    buttons = []
     # 数字
     for digit in [0..9]
       digitView = new Button(
