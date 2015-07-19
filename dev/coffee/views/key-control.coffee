@@ -14,7 +14,7 @@ module.exports = class KeyControl extends Backbone.View
     isShift = e.shiftKey
     type = e.type
 
-    console.log keyCode,isShift,type
+    # console.log keyCode,isShift,type
 
     # 0-9
     if keyCode in [48..57]
