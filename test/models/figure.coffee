@@ -233,7 +233,7 @@ describe 'シナリオテスト', ->
     modelEq figure, {
       decimalPoint: 2
       dot         : true
-      value       : -122.5
+      value       : -123.5
       isNew       :false
     }
 

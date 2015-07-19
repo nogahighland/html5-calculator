@@ -32,10 +32,12 @@ module.exports = class Figure extends Backbone.Model
       return
 
     if @get('dot')
-      digit = digit * Math.pow 0.1, @get('decimalPoint')
-      @set 'decimalPoint', @get('decimalPoint') + 1
-      @set 'value', @get('value') + digit
-
+      point = Math.pow 10, @get('decimalPoint')-1
+      value = @get('value') * point
+      value = ("#{value}#{digit}"*1)/(point*10)
+      @set
+        'value'        : value
+        'decimalPoint' : @get('decimalPoint')+1
     else
       value = @get('value')
       value = value + '' + digit if value
