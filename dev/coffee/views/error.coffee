@@ -11,7 +11,7 @@ module.exports = class ErrorView extends Backbone.View
     Events.on 'click:clear', @clear
 
   update : (error) ->
-    @$el.find('#message').text error
+    @$el.find('#message').text '数値が大きすぎます。ESCキーまたはCでリセットしてください。'
 
   clear : ->
     @$el.find('#message').text ''

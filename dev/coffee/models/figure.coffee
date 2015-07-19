@@ -87,7 +87,7 @@ module.exports = class Figure extends Backbone.Model
       error = "value is Infinite"
 
     if error
-      console.error error
+      console.error error,value
       Events.trigger 'error:input', error
       return error
 
