@@ -104,6 +104,9 @@ module.exports = class Figure extends Backbone.Model
     figure = "#{figure}".split('.')
     natural = figure[0]
 
+    if /e-\d+/.test(natural)
+      return figure
+
     for digit,i in natural.split('').reverse()
       if i and i % 3 == 0 and digit != '-'
         splitted = ',' + splitted

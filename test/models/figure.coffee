@@ -309,3 +309,7 @@ describe '3桁区切り', ->
     it '3桁未満＋小数点混じり', ->
       disp = new Figure(value:-66.88).getDisplayValue()
       eq '-66.88', disp
+
+    it '1e-9', ->
+      disp = new Figure(value:1e-9).getDisplayValue()
+      eq '1e-9', disp
