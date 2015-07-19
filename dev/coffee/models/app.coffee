@@ -39,18 +39,23 @@ module.exports = class App extends Backbone.Model
           display           : figure.getDisplayValue()
           'display-process' : "#{r.get('value')} #{r.get('operator')} #{f2.get('value')}"
 
-    # XX + YY の XX を入力中
     else
+      process
       if _.isEmpty f1.get('operator')
+        # XX + YY の XX を入力中
         figure = @get 'operand1'
+        figure.addDigit(digit)
+        process = figure.getDisplayValue()
       else
+        # XX + YY の YY を入力中
         figure = @get 'operand2'
+        figure.addDigit(digit)
+        process = "#{f1.get('value')} #{f1.get('operator')} #{figure.get('value')}"
 
-      figure.addDigit(digit)
       if figure.isValid()
         @set
           display           : figure.getDisplayValue()
-          'display-process' : figure.getDisplayValue()
+          'display-process' : process
 
   # 演算子をどの数値に適用するか決定し、設定する
   updateOperator: (operator) ->
