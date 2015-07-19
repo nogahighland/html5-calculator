@@ -122,6 +122,8 @@ module.exports = class Figure extends Backbone.Model
         return @multiply other
       when '÷'
         return @devide other
+      else
+        return @
 
   plus : (other) ->
     newValue = @get('value') + other.get('value')

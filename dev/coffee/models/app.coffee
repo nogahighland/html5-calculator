@@ -41,8 +41,13 @@ module.exports = class App extends Backbone.Model
       update
       if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
-      else
+      else if !f1.isNew()
+        update = f1.calculate f1
+      else if result and result.isNew()
         update = result.calculate(result.get 'operand2')
+
+      if !update.get('operand1')
+        return
 
       if update.isValid()
         @set
