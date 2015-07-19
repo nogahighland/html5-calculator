@@ -67,9 +67,7 @@ g.task 'clean', del.bind null, ['./.tmp', './test/models/app.js']
 # プロダクションリリース版のtar.gz作成
 g.task 'build', ['clean', 'sass', 'coffee', 'html'], ->
 	g.src '.tmp/**/*'
-	.pipe $.tar 'dist/calculator.tar'
-	.pipe $.gzip()
-	.pipe g.dest '.'
+	.pipe $.vinylZip.dest('dist/calculator.zip')
 
 g.task 'watch:test', ->
   g.watch './test/**/*.coffee', ['test']
