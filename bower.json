@@ -13,10 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.2",
-    "backbone": "~1.2.1"
-  },
-  "devDependencies": {
+    "backbone": "~1.2.1",
     "bootstrap-sass": "~3.3.5"
   }
 }
