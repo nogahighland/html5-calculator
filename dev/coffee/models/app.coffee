@@ -146,36 +146,48 @@ module.exports = class App extends Backbone.Model
         'display-process' : figure.getDisplayValue()
 
   invert : ->
-    f1     = @get 'operand1'
-    f2     = @get 'operand2'
-    update
-    if !f1.isNew()
-      f1.invert()
-      update = f1
-    else
-      f2.invert()
-      update = f2
-
-    if update.isValid()
+    f1 = @get 'operand1'
+    f2 = @get 'operand2'
+    r  = @get 'result'
+    figure
+    # XX + YY + まで入力終えたところ
+    if r and r.get 'operator'
       @set
-        'display'         : update.getDisplayValue()
-        'display-process' : update.getDisplayValue()
+        operand1 : r
+        result   : new Figure
+      figure = r
+    else if _.isEmpty f1.get('operator')
+      figure = f1
+    else
+      figure = f2
+
+    figure.invert()
+    if figure.isValid()
+      @set
+        'display'         : figure.getDisplayValue()
+        'display-process' : figure.getDisplayValue()
 
   percent : ->
-    f1     = @get 'operand1'
-    f2     = @get 'operand2'
-    update
-    if !f1.isNew()
-      f1.percent()
-      update = f1
-    else
-      f2.percent()
-      update = f2
-
-    if update.isValid()
+    f1 = @get 'operand1'
+    f2 = @get 'operand2'
+    r  = @get 'result'
+    figure
+    # XX + YY + まで入力終えたところ
+    if r and r.get 'operator'
       @set
-        'display'         : update.getDisplayValue()
-        'display-process' : update.getDisplayValue()
+        operand1 : r
+        result   : new Figure
+      figure = r
+    else if _.isEmpty f1.get('operator')
+      figure = f1
+    else
+      figure = f2
+
+    figure.percent()
+    if figure.isValid()
+      @set
+        'display'         : figure.getDisplayValue()
+        'display-process' : figure.getDisplayValue()
 
   delete : ->
     f1     = @get 'operand1'

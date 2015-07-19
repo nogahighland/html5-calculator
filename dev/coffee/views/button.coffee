@@ -20,7 +20,7 @@ module.exports = class Button extends Backbone.View
     @eventName = params.eventName
     _.bindAll @, 'click', 'keypress', 'keyup'
     for type in ['keypress', 'keyup']
-      for name in ['digit', 'operator', 'dot', 'clear', 'percent']
+      for name in ['digit', 'operator', 'dot', 'clear', 'percent', 'invert']
         Events.on "#{type}:#{name}", @[type]
 
   render : ->
@@ -30,6 +30,7 @@ module.exports = class Button extends Backbone.View
     Events.trigger "click:#{@eventName}", @model.get 'value'
 
   keypress : (value) ->
+    console.log value
     if value == @model.get 'value'
       @$el.addClass 'btn-pressed'
       @click()

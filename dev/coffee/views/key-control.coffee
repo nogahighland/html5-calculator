@@ -14,7 +14,7 @@ module.exports = class KeyControl extends Backbone.View
     isShift = e.shiftKey
     type = e.type
 
-    # console.log keyCode,isShift,type
+    console.log keyCode,isShift,type
 
     # 0-9
     if keyCode in [48..57]
@@ -39,3 +39,6 @@ module.exports = class KeyControl extends Backbone.View
 
     # 削除
     Events.trigger "#{type}:delete" if keyCode == 100 and !isShift
+
+    # 反転
+    Events.trigger "#{type}:invert", '+/-' if keyCode == 105 and !isShift
