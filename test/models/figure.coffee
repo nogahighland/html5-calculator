@@ -176,35 +176,35 @@ describe '計算', ->
     f1 = new Figure(value:1)
     f1.operator '＋'
     f2 = new Figure(value:2)
-    expect = new Figure(value:3, firstFigure:f1, secondFigure:f2, operator:'＋')
+    expect = new Figure(value:3, operand1:f1, operand2:f2, operator:'＋')
     modelEq expect, f1.calculate(f2).toJSON()
 
   it '引き算', ->
     f1 = new Figure(value:1)
     f1.operator 'ー'
     f2 = new Figure(value:2)
-    expect = new Figure(value:-1, firstFigure:f1, secondFigure:f2, operator:'ー')
+    expect = new Figure(value:-1, operand1:f1, operand2:f2, operator:'ー')
     modelEq expect, f1.calculate(f2).toJSON()
 
   it '掛け算', ->
     f1 = new Figure(value:10)
     f2 = new Figure(value:2)
     f1.operator '×'
-    expect = new Figure(value:20, firstFigure:f1, secondFigure:f2, operator:'×')
+    expect = new Figure(value:20, operand1:f1, operand2:f2, operator:'×')
     modelEq expect, f1.calculate(f2).toJSON()
 
   it '割り算(10/2)', ->
     f1 = new Figure(value:10)
     f2 = new Figure(value:2)
     f1.operator '÷'
-    expect = new Figure(value:5, firstFigure:f1, secondFigure:f2, operator:'÷')
+    expect = new Figure(value:5, operand1:f1, operand2:f2, operator:'÷')
     modelEq expect, f1.calculate(f2).toJSON()
 
   it '割り算(2/10)', ->
     f1 = new Figure(value:2)
     f2 = new Figure(value:10)
     f1.operator '÷'
-    expect = new Figure(value:0.2, firstFigure:f1, secondFigure:f2, operator:'÷', decimalPoint:2, dot:true)
+    expect = new Figure(value:0.2, operand1:f1, operand2:f2, operator:'÷', decimalPoint:2, dot:true)
     modelEq expect, f1.calculate(f2).toJSON()
 
   it '反転', ->

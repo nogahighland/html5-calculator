@@ -10,9 +10,9 @@ module.exports = class Figure extends Backbone.Model
     decimalPoint: 0
     isNew       : true
     # 計算結果となった第一数値
-    firstFigure :null
+    operand1 :null
     # 計算結果となった第二数値
-    secondFigure:null
+    operand2:null
     # 計算に使用される演算子
     operator     :null
 
@@ -125,19 +125,19 @@ module.exports = class Figure extends Backbone.Model
 
   plus : (other) ->
     newValue = @get('value') + other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'＋')
+    new Figure(value:newValue, operand1:@, operand2:other, operator:'＋')
 
   minus : (other) ->
     newValue = @get('value') - other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'ー')
+    new Figure(value:newValue, operand1:@, operand2:other, operator:'ー')
 
   multiply : (other) ->
     newValue = @get('value') * other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'×')
+    new Figure(value:newValue, operand1:@, operand2:other, operator:'×')
 
   devide : (other) ->
     newValue = @get('value') / other.get('value')
-    new Figure(value:newValue, firstFigure:@, secondFigure:other, operator:'÷')
+    new Figure(value:newValue, operand1:@, operand2:other, operator:'÷')
 
   invert : ->
     @set 'value', @get('value') * -1

@@ -6,25 +6,25 @@ module.exports = class App extends Backbone.Model
 
   defaults :
     # 第一数値
-    firstFigure : null
+    operand1 : null
     # 第二数値
-    secondFigure: null
+    operand2: null
     # 結果
     result      : null
     # 表示値
     display     : 0
 
   initialize : ->
-    for attr in ['firstFigure', 'secondFigure', 'result']
+    for attr in ['operand1', 'operand2', 'result']
       @set attr, new Figure
 
-  # 整数の入力のバリデートを行ってfirstFigure, secondFigure, displayを更新する
+  # 整数の入力のバリデートを行ってoperand1, operand2, displayを更新する
   updateFigure : (digit) ->
     figure
-    if _.isEmpty @get('firstFigure').get('operator')
-      figure = @get 'firstFigure'
+    if _.isEmpty @get('operand1').get('operator')
+      figure = @get 'operand1'
     else
-      figure = @get 'secondFigure'
+      figure = @get 'operand2'
 
     figure.addDigit(digit)
     if figure.isValid()
@@ -32,28 +32,28 @@ module.exports = class App extends Backbone.Model
 
   # 初期値に対する演算子
   updateOperator: (operator) ->
-    f1     = @get 'firstFigure'
-    f2     = @get 'secondFigure'
+    f1     = @get 'operand1'
+    f2     = @get 'operand2'
     result = @get 'result'
     if operator == '＝'
       update
       if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
       else
-        update = result.calculate(result.get 'secondFigure')
+        update = result.calculate(result.get 'operand2')
 
       if update.isValid()
         @set
           'result'      : update
           'display'     : update.getDisplayValue()
-          'firstFigure' : new Figure
-          'secondFigure': new Figure
+          'operand1' : new Figure
+          'operand2': new Figure
 
     else
       if f1.isNew() and f2.isNew() and (result and result.isNew())
         result.operator operator
         @set
-          firstFigure:　result
+          operand1:　result
           result     :　null
 
       if !f1.isNew() and !f2.isNew()
@@ -63,8 +63,8 @@ module.exports = class App extends Backbone.Model
           @set
             'result'      : update
             'display'     : update.getDisplayValue()
-            'firstFigure' :new Figure
-            'secondFigure':new Figure
+            'operand1' :new Figure
+            'operand2':new Figure
 
       else if f2.isNew()
         f1.operator operator
@@ -73,18 +73,18 @@ module.exports = class App extends Backbone.Model
 
   dot : ->
     figure
-    if (@get 'firstFigure').isNew()
-      figure = @get 'firstFigure'
+    if (@get 'operand1').isNew()
+      figure = @get 'operand1'
     else
-      figure = @get 'secondFigure'
+      figure = @get 'operand2'
 
     figure.dot()
     if figure.isValid()
       @set 'display', figure.getDisplayValue()
 
   invert : ->
-    f1     = @get 'firstFigure'
-    f2     = @get 'secondFigure'
+    f1     = @get 'operand1'
+    f2     = @get 'operand2'
     update
     if !f1.isNew()
       f1.invert()
