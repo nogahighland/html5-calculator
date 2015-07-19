@@ -172,16 +172,21 @@ module.exports = class App extends Backbone.Model
     f2 = @get 'operand2'
     r  = @get 'result'
     figure
+    console.log 'a'
     # XX + YY + まで入力終えたところ
     if r and r.get 'operator'
       @set
         operand1 : r
         result   : new Figure
       figure = r
-    else if _.isEmpty f1.get('operator')
+    else if f1.isNew() or _.isEmpty(f1.get 'operator')
       figure = f1
     else
-      figure = f2
+      figure = f1.calculate f2
+      @set
+        operand1 : figure
+        operand2 : new Figure
+        result   : new Figure
 
     figure.percent()
     if figure.isValid()
