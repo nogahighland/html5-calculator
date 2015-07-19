@@ -92,7 +92,9 @@ module.exports = class App extends Backbone.Model
 
     figure.dot()
     if figure.isValid()
-      @set 'display', figure.getDisplayValue()
+      @set
+        'display'         : figure.getDisplayValue()
+        'display-process' : figure.getDisplayValue()
 
   invert : ->
     f1     = @get 'operand1'
@@ -107,7 +109,8 @@ module.exports = class App extends Backbone.Model
 
     if update.isValid()
       @set
-        'display'     : update.getDisplayValue()
+        'display'         : update.getDisplayValue()
+        'display-process' : update.getDisplayValue()
 
   percent : ->
     f1     = @get 'operand1'
@@ -122,7 +125,8 @@ module.exports = class App extends Backbone.Model
 
     if update.isValid()
       @set
-        'display'     : update.getDisplayValue()
+        'display'         : update.getDisplayValue()
+        'display-process' : update.getDisplayValue()
 
   # クリアする
   clear : ->
