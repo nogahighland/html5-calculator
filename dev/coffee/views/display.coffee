@@ -1,15 +1,21 @@
 Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
 
+# 数字の表示領域です
 module.exports = class Display extends Backbone.View
 
-  el : '#display'
+  el : '#display-container'
 
   initialize : ->
+    @display = @$el.find('#display')
+    @process = @$el.find('#display-process')
     @render()
 
-  # 表示を更新します
-  update : (value) ->
-    @$el.text value
+  updateResult : (value) ->
+    @display.text value
+
+  updateProcess : (value) ->
+    @process.text value
 
   render : ->
-    @$el.text '0'
+    @display.text '0'
+    @process.text '0'

@@ -28,7 +28,9 @@ module.exports = class App extends Backbone.Model
 
     figure.addDigit(digit)
     if figure.isValid()
-      @set 'display', figure.getDisplayValue()
+      @set
+        'display'         : figure.getDisplayValue()
+        'display-process' : figure.getDisplayValue()
 
   # 初期値に対する演算子
   updateOperator: (operator) ->
@@ -44,30 +46,35 @@ module.exports = class App extends Backbone.Model
 
       if update.isValid()
         @set
-          'result'      : update
-          'display'     : update.getDisplayValue()
-          'operand1' : new Figure
-          'operand2': new Figure
+          'result'          : update
+          'display'         : update.getDisplayValue()
+          'operand1'        : new Figure
+          'operand2'        : new Figure
+          'display-process' : "#{update.get('operand1').get('value')} #{update.get('operand1').get('operator')} #{update.get('operand2').get('value')}"
 
     else
       if f1.isNew() and f2.isNew() and (result and result.isNew())
         result.operator operator
         @set
-          operand1:　result
-          result     :　null
+          operand1          :　result
+          result            :　null
+          'display-process' : "#{result.get('value')} #{operator}"
 
-      if !f1.isNew() and !f2.isNew()
+      else if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
 
         if update.isValid()
           @set
-            'result'      : update
-            'display'     : update.getDisplayValue()
-            'operand1' :new Figure
-            'operand2':new Figure
+            'result'          : update
+            'display'         : update.getDisplayValue()
+            'operand1'        :new Figure
+            'operand2'        :new Figure
+            'display-process' : "#{update.get('operand1').get('value')} #{update.get('operand1').get('operator')} #{update.get('operand2').get('value')}"
 
       else if f2.isNew()
         f1.operator operator
+        @set
+          'display-process' : f1.getDisplayValue() + ' ' + operator
       else
         f2.operator operator
 
@@ -115,6 +122,7 @@ module.exports = class App extends Backbone.Model
   # クリアする
   clear : ->
     @set 'display', 0
+    @set 'display-process', 0
     super()
     @initialize()
 

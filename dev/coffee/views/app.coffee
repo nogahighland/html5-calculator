@@ -18,7 +18,10 @@ class App extends Backbone.View
     @render()
 
     @model.on 'change:display', _.bind((model, value) ->
-      @display.update value
+      @display.updateResult value
+    ,@)
+    @model.on 'change:display-process', _.bind((model, value) ->
+      @display.updateProcess value
     ,@)
 
     Events.on 'click:digit', @clickDigit
