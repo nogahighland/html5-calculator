@@ -22,7 +22,7 @@ module.exports = class Figure extends Backbone.Model
     if values.length == 2
       @set
         'dot'          : true
-        'decimalPoint' : values[1].length + 1
+        'decimalPoint' : values[1].length
 
   addDigit : (digit) ->
     @set 'isNew', false
@@ -32,12 +32,13 @@ module.exports = class Figure extends Backbone.Model
       return
 
     if @get('dot')
-      point = Math.pow 10, @get('decimalPoint')-1
-      value = @get('value') * point
-      value = ("#{value}#{digit}"*1)/(point*10)
+      decimalPoint = @get('decimalPoint')
+      naturalize   = if decimalPoint then Math.pow(10, decimalPoint) else 1
+      naturalized  = @get('value') * naturalize
+      value        = ("#{naturalized}#{digit}" * 1) / (naturalize * 10)
       @set
         'value'        : value
-        'decimalPoint' : @get('decimalPoint')+1
+        'decimalPoint' : decimalPoint + 1
     else
       value = @get('value')
       value = value + '' + digit if value
@@ -50,7 +51,7 @@ module.exports = class Figure extends Backbone.Model
       return
     @set
       'dot'         : true
-      'decimalPoint': 1
+      'decimalPoint': 0
       'isNew'       : false
 
   operator :(operator) ->
@@ -64,7 +65,7 @@ module.exports = class Figure extends Backbone.Model
       if point >= 0
         @set 'decimalPoint', point
 
-      if point <= 0
+      if point < 0
         @set 'decimalPoint', 0
         @set 'dot', false
 

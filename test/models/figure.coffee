@@ -26,47 +26,53 @@ describe '数字入力のテスト', ->
     }
 
   it '1.→2', ->
-    figure = new Figure(value:1, dot:true, decimalPoint:1)
+    figure = new Figure(value:1, dot:true, decimalPoint:0)
     figure.addDigit 2
 
     ok figure.isValid()
     modelEq figure, {
-      dot         :true
-      decimalPoint:2
+      dot         : true
+      decimalPoint: 1
       value       : 1.2
-      isNew       :false
+      isNew       : false
     }
 
   it '.→2', ->
-    figure = new Figure(dot:true, decimalPoint:1)
+    figure = new Figure(dot:true, decimalPoint:0)
     figure.addDigit 2
 
     ok figure.isValid()
     modelEq figure, {
-      dot         :true
-      decimalPoint:2
+      dot         : true
+      decimalPoint: 1
       value       : 0.2
-      isNew       :false
+      isNew       : false
     }
 
   it '.→2→3', ->
-    figure = new Figure(dot:true, decimalPoint:1)
-    figure.addDigit 2
+    figure = new Figure(dot:true, decimalPoint:0)
     figure.dot()
+    figure.addDigit 2
     figure.addDigit 3
 
     ok figure.isValid()
     modelEq figure, {
-      dot         :true
-      decimalPoint:3
+      dot         : true
+      decimalPoint: 2
       value       : 0.23
-      isNew       :false
+      isNew       : false
     }
 
   it '0.1111111111→1', ->
-    figure = new Figure(value:0.1111111111, decimalPoint:11, dot:true)
+    figure = new Figure(value:0.1111111111, decimalPoint:10, dot:true)
     figure.addDigit 1
-    eq 0.11111111111, figure.get 'value'
+    ok figure.isValid()
+    modelEq figure, {
+      dot         : true
+      decimalPoint: 11
+      value       : 0.11111111111
+      isNew       : false
+    }
 
 describe '文字列入力のテスト', ->
 
@@ -90,31 +96,31 @@ describe '文字列入力のテスト', ->
     }
 
   it '1.→2', ->
-    figure = new Figure(value:1, dot:true, decimalPoint:1)
+    figure = new Figure(value:1, dot:true, decimalPoint:0)
     figure.addDigit '2'
 
     ok figure.isValid()
     modelEq figure, {
       dot         : true
-      decimalPoint: 2
+      decimalPoint: 1
       value       : 1.2
-      isNew       :false
+      isNew       : false
     }
 
   it '.→2', ->
-    figure = new Figure(dot:true, decimalPoint:1)
+    figure = new Figure(dot:true, decimalPoint:0)
     figure.addDigit '2'
 
     ok figure.isValid()
     modelEq figure, {
       dot         : true
-      decimalPoint: 2
+      decimalPoint: 1
       value       : 0.2
-      isNew       :false
+      isNew       : false
     }
 
   it '.→2→3', ->
-    figure = new Figure(dot:true,decimalPoint:1)
+    figure = new Figure(dot:true,decimalPoint:0)
     figure.addDigit '2'
     figure.dot()
     figure.addDigit '3'
@@ -122,9 +128,9 @@ describe '文字列入力のテスト', ->
     ok figure.isValid()
     modelEq figure, {
       dot         : true
-      decimalPoint: 3
+      decimalPoint: 2
       value       : 0.23
-      isNew       :false
+      isNew       : false
     }
 
 describe '削除のテスト', ->
@@ -231,10 +237,10 @@ describe 'シナリオテスト', ->
     # -122.5
 
     modelEq figure, {
-      decimalPoint: 2
+      decimalPoint: 1
       dot         : true
       value       : -123.5
-      isNew       :false
+      isNew       : false
     }
 
 describe 'コンストラクタ', ->
@@ -244,18 +250,18 @@ describe 'コンストラクタ', ->
       value : 123
     }
 
-  it '123.456', ->
+  it '123.456 -> 7', ->
     figure = new Figure value:123.456
     modelEq figure, {
       dot         : true
-      decimalPoint: 4
+      decimalPoint: 3
       value       : 123.456
     }
     figure.addDigit 7
     modelEq figure, {
       isNew       : false
       dot         : true
-      decimalPoint: 5
+      decimalPoint: 4
       value       : 123.4567
     }
 
