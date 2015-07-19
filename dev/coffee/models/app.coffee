@@ -177,6 +177,22 @@ module.exports = class App extends Backbone.Model
         'display'         : update.getDisplayValue()
         'display-process' : update.getDisplayValue()
 
+  delete : ->
+    f1     = @get 'operand1'
+    f2     = @get 'operand2'
+    update
+    if !f1.isNew() and f2.isNew()
+      f1.delete()
+      update = f1
+    else if !f2.isNew()
+      f2.delete()
+      update = f2
+
+    if update.isValid()
+      @set
+        'display'         : update.getDisplayValue()
+        'display-process' : update.getDisplayValue()
+
   # クリアする
   clear : ->
     @set 'display', 0

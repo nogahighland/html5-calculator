@@ -15,7 +15,7 @@ class App extends Backbone.View
 
   # 初期化処理
   initialize : ->
-    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperator', 'clickDot', 'clickInvert', 'clickPercent'
+    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperator', 'clickDot', 'clickInvert', 'clickPercent', 'delete'
 
     @model = new AppModel()
     @render()
@@ -33,6 +33,7 @@ class App extends Backbone.View
     Events.on 'click:operator', @clickOperator
     Events.on 'click:invert', @clickInvert
     Events.on 'click:percent', @clickPercent
+    Events.on 'keypress:delete', @delete
 
     # キーコントロール
     @keyControl = new KeyControl
@@ -147,5 +148,8 @@ class App extends Backbone.View
 
   clickPercent : ->
     @model.percent()
+
+  delete : ->
+    @model.delete()
 
 new App

@@ -14,7 +14,7 @@ module.exports = class KeyControl extends Backbone.View
     isShift = e.shiftKey
     type = e.type
 
-    # console.log keyCode,isShift,type
+    console.log keyCode,isShift,type
 
     # 0-9
     if keyCode in [48..57]
@@ -36,3 +36,6 @@ module.exports = class KeyControl extends Backbone.View
 
     # %
     Events.trigger "#{type}:percent", '%' if keyCode in [37,53] and isShift
+
+    # 削除
+    Events.trigger "#{type}:delete" if keyCode == 100 and !isShift
