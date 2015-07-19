@@ -3,36 +3,32 @@ Events = require '../events/event'
 
 module.exports = class KeyControl extends Backbone.View
 
-  operators :
-    plus     : 43 # shift
-    minus    : 45
-    multiply : 42 # shift
-    devide   : 47
-    equal    : 13
-
   el : 'body'
 
   events :
-    'keypress' : 'keypress'
+    'keypress' : 'key'
+    'keyup'    : 'key'
 
-  keypress :(e) ->
+  key :(e) ->
     keyCode = e.keyCode
     isShift = e.shiftKey
+    type = e.type
+
+    console.log type, keyCode, isShift
 
     # 0-9
     if keyCode in [48..57]
-      Events.trigger 'keypress:digit', keyCode - 48 unless isShift
+      Events.trigger "#{type}:digit", keyCode - 48 unless isShift
 
     # 演算子
-    if keyCode in _.values @operators
-      Events.trigger 'keypress:operator', '＋' if keyCode == 43 and isShift
-      Events.trigger 'keypress:operator', 'ー' if keyCode == 45 and !isShift
-      Events.trigger 'keypress:operator', '×'  if keyCode == 42 and isShift
-      Events.trigger 'keypress:operator', '÷'  if keyCode == 47 and !isShift
-      Events.trigger 'keypress:operator', '＝' if keyCode == 13 and !isShift
+    Events.trigger "#{type}:operator", '＋' if keyCode in [43,187] and isShift
+    Events.trigger "#{type}:operator", 'ー' if keyCode in [45,189] and !isShift
+    Events.trigger "#{type}:operator", '×'  if keyCode in [42,222] and isShift
+    Events.trigger "#{type}:operator", '÷'  if keyCode in [47,191] and !isShift
+    Events.trigger "#{type}:operator", '＝' if keyCode == 13 and !isShift
 
     # ドット
-    Events.trigger 'keypress:dot', '.' if keyCode == 46 and !isShift
+    Events.trigger "#{type}:dot", '.' if keyCode in [46,190] and !isShift
 
     # クリア
-    Events.trigger 'keypress:clear', 'C' if keyCode == 99 and !isShift
+    Events.trigger "#{type}:clear", 'C' if keyCode in [99,67] and !isShift
