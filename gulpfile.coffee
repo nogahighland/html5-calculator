@@ -25,10 +25,10 @@ g.task 'reload', ->
 # sassコンパイル
 g.task 'sass', ['fonts'], ->
   $.rubySass 'dev/sass/',
-    # style:'compressed'
+    style:'compressed'
     loadPath:'bower_components/bootstrap-sass/assets/stylesheets/'
   .pipe $.plumber(errorHandler: $.notify.onError('<%= error.message %>'))
-  # .pipe $.minifyCss()
+  .pipe $.minifyCss()
   .pipe g.dest '.tmp/css'
   .pipe reload stream:true
 
@@ -47,7 +47,7 @@ g.task 'coffee', ->
   .on 'error', $.util.log # リリース時はどうする？
   .pipe source 'app.js'
   .pipe buffer()
-  # .pipe $.uglify()
+  .pipe $.uglify()
   .pipe g.dest '.tmp/js'
   .pipe reload stream:true
 
