@@ -30,7 +30,6 @@ module.exports = class Button extends Backbone.View
     Events.trigger "click:#{@eventName}", @model.get 'value'
 
   keypress : (value) ->
-    console.log value
     if value == @model.get 'value'
       @$el.addClass 'btn-pressed'
       @click()
