@@ -124,11 +124,20 @@ module.exports = class App extends Backbone.Model
         f2.operator operator
 
   dot : ->
+    f1 = @get 'operand1'
+    f2 = @get 'operand2'
+    r  = @get 'result'
     figure
-    if (@get 'operand1').isNew()
-      figure = @get 'operand1'
+    # XX + YY + まで入力終えたところ
+    if r and r.get 'operator'
+      @set
+        operand1 : r
+        result   : new Figure
+      figure = f2
+    else if _.isEmpty f1.get('operator')
+      figure = f1
     else
-      figure = @get 'operand2'
+      figure = f2
 
     figure.dot()
     if figure.isValid()
