@@ -24,6 +24,7 @@ module.exports = class Button extends Backbone.View
     Events.on 'keypress:digit', @keypress
     Events.on 'keypress:operator', @keypress
     Events.on 'keypress:dot', @keypress
+    Events.on 'keypress:clear', @keypress
 
   render : ->
     @$el.addClass('btn btn-default')

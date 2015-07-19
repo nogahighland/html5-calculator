@@ -33,3 +33,6 @@ module.exports = class KeyControl extends Backbone.View
 
     # ドット
     Events.trigger 'keypress:dot', '.' if keyCode == 46 and !isShift
+
+    # クリア
+    Events.trigger 'keypress:clear', 'C' if keyCode == 99 and !isShift
