@@ -18,31 +18,55 @@ module.exports = class App extends Backbone.Model
     for attr in ['operand1', 'operand2', 'result']
       @set attr, new Figure
 
-  # 整数の入力のバリデートを行ってoperand1, operand2, displayを更新する
+  # 数値を更新する対象をoperand1, operand2から定め、
+  # displayを更新する
   updateFigure : (digit) ->
+    f1 = @get 'operand1'
+    f2 = @get 'operand2'
+    r  = @get 'result'
     figure
-    if _.isEmpty @get('operand1').get('operator')
-      figure = @get 'operand1'
-    else
-      figure = @get 'operand2'
-
-    figure.addDigit(digit)
-    if figure.isValid()
+    # XX + YY + まで入力終えたところ
+    if f1.isNew() and f2.isNew() and r.get 'operator'
       @set
-        'display'         : figure.getDisplayValue()
-        'display-process' : figure.getDisplayValue()
+        operand1 : r
+        result   : new Figure
 
-  # 初期値に対する演算子
+      figure = f2
+      f2.addDigit digit
+
+      if figure.isValid()
+        @set
+          display           : figure.getDisplayValue()
+          'display-process' : "#{r.get('value')} #{r.get('operator')} #{f2.get('value')}"
+
+    # XX + YY の XX を入力中
+    else
+      if _.isEmpty f1.get('operator')
+        figure = @get 'operand1'
+      else
+        figure = @get 'operand2'
+
+      figure.addDigit(digit)
+      if figure.isValid()
+        @set
+          display           : figure.getDisplayValue()
+          'display-process' : figure.getDisplayValue()
+
+  # 演算子をどの数値に適用するか決定し、設定する
   updateOperator: (operator) ->
     f1     = @get 'operand1'
     f2     = @get 'operand2'
     result = @get 'result'
     if operator == '＝'
       update
-      if !f1.isNew() and !f2.isNew()
-        update = f1.calculate(f2)
-      else if !f1.isNew()
+      # XX + YY の YY のみを入力済みの時
+      if !f1.isNew() and f2.isNew()
         update = f1.calculate f1
+      # XX + YY を入力済みの時
+      else if !f1.isNew() and !f2.isNew()
+        update = f1.calculate f2
+      # XX + YY の 結果を出し終わった直後
+      # または計算結果を出していない時
       else if result and result.isNew()
         update = result.calculate(result.get 'operand2')
 
@@ -58,28 +82,44 @@ module.exports = class App extends Backbone.Model
           'display-process' : "#{update.get('operand1').get('value')} #{update.get('operand1').get('operator')} #{update.get('operand2').get('value')}"
 
     else
-      if f1.isNew() and f2.isNew() and (result and result.isNew())
-        result.operator operator
-        @set
-          operand1          :　result
-          result            :　null
-          'display-process' : "#{result.get('value')} #{operator}"
+      # -----------------------------------
+      # =以外の演算子
+      # -----------------------------------
 
+      if f1.isNew() and f2.isNew()
+        figure
+        if result and result.get 'operator'
+          # 計算結果を出し終わった直後
+          figure = result
+        else
+          # 全てが未入力の時
+          figure = f1
+
+        figure.operator operator
+        @set
+          operand1          :　figure
+          result            :　null
+          'display-process' : "#{figure.get('value')} #{operator}"
+
+      # XX + YY の YY のみを入力済みの時
+      else if !f1.isNew() and f2.isNew()
+        f1.operator operator
+        @set
+          'display-process' : f1.getDisplayValue() + ' ' + operator
+
+      # XX + YY を入力済み
       else if !f1.isNew() and !f2.isNew()
         update = f1.calculate(f2)
+        update.operator operator
 
         if update.isValid()
           @set
             'result'          : update
             'display'         : update.getDisplayValue()
-            'operand1'        :new Figure
-            'operand2'        :new Figure
-            'display-process' : "#{update.get('operand1').get('value')} #{update.get('operand1').get('operator')} #{update.get('operand2').get('value')}"
+            'operand1'        : new Figure
+            'operand2'        : new Figure
+            'display-process' : "#{update.get('value')} #{operator}"
 
-      else if f2.isNew()
-        f1.operator operator
-        @set
-          'display-process' : f1.getDisplayValue() + ' ' + operator
       else
         f2.operator operator
 
@@ -134,7 +174,3 @@ module.exports = class App extends Backbone.Model
     @set 'display-process', 0
     super()
     @initialize()
-
-  # 全てをクリアする
-  # allClear     :->
-  #   @clear()
