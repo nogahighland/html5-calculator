@@ -37,4 +37,6 @@ module.exports = class Button extends Backbone.View
       @$el.removeClass 'btn-pressed'
 
   keyup : (value) ->
+    if value == 'C'== @model.get 'value'
+      @click()
     @$el.removeClass 'btn-pressed'
