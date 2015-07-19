@@ -92,10 +92,25 @@ module.exports = class Figure extends Backbone.Model
       return error
 
   getDisplayValue : ->
+    figure
     if /^\d+$/.test(@get 'value') and (@get 'dot')
-      return (@get 'value') + '.'
+      figure = (@get 'value') + '.'
     else
-      return @get 'value'
+      figure = @get 'value'
+
+    splitted = ""
+    figure = "#{figure}".split('.')
+    natural = figure[0]
+
+    for digit,i in natural.split('').reverse()
+      if i and i % 3 == 0 and digit != '-'
+        splitted = ',' + splitted
+      splitted = digit + splitted
+
+    if figure.length == 2
+      return "#{splitted}.#{figure[1]}"
+    else
+      return splitted
 
   calculate : (other) ->
     switch @get 'operand'

@@ -258,3 +258,54 @@ describe 'コンストラクタ', ->
       decimalPoint: 5
       value       : 123.4567
     }
+
+describe '3桁区切り', ->
+  describe '正数', () ->
+    it '4桁以上の自然数', ->
+      disp = new Figure(value:1234567890).getDisplayValue()
+      eq '1,234,567,890', disp
+
+    it '4桁以上＋小数点混じり', ->
+      disp = new Figure(value:12345.6789).getDisplayValue()
+      eq '12,345.6789', disp
+
+    it '3桁の自然数', ->
+      disp = new Figure(value:876).getDisplayValue()
+      eq '876', disp
+
+    it '3桁＋小数点混じり', ->
+      disp = new Figure(value:876.456).getDisplayValue()
+      eq '876.456', disp
+
+    it '3桁未満の自然数', ->
+      disp = new Figure(value:89).getDisplayValue()
+      eq '89', disp
+
+    it '3桁未満＋小数点混じり', ->
+      disp = new Figure(value:66.88).getDisplayValue()
+      eq '66.88', disp
+
+  describe '負数', () ->
+    it '4桁以上の自然数', ->
+      disp = new Figure(value:-1234567890).getDisplayValue()
+      eq '-1,234,567,890', disp
+
+    it '4桁以上＋小数点混じり', ->
+      disp = new Figure(value:-12345.6789).getDisplayValue()
+      eq '-12,345.6789', disp
+
+    it '3桁の自然数', ->
+      disp = new Figure(value:-876).getDisplayValue()
+      eq '-876', disp
+
+    it '3桁＋小数点混じり', ->
+      disp = new Figure(value:-876.456).getDisplayValue()
+      eq '-876.456', disp
+
+    it '3桁未満の自然数', ->
+      disp = new Figure(value:-89).getDisplayValue()
+      eq '-89', disp
+
+    it '3桁未満＋小数点混じり', ->
+      disp = new Figure(value:-66.88).getDisplayValue()
+      eq '-66.88', disp
