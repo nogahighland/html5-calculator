@@ -5,43 +5,55 @@
     <link rel="stylesheet" href="css/style.css" media="screen">
 </head>
 <body>
-  <div id="error">
-    <!-- エラー表示 -->
-  </div>
+
   <div id="wrapper" class="">
-    <!-- 計算結果の表示 -->
-    <div id="display-container" class="">
-      <div id="display">display</div>
+    <div class="row">
+      <div id="error"></div>
     </div>
+    <!-- 計算結果の表示 -->
+    <div id="display-container" class="row">
+      <div id="display-process"></div>
+      <div id="display"></div>
+    </div>
+
     <!-- 操作ボタン -->
     <div id="buttons-container" class="row">
-      <div id="digits" class="col-md-8 row">
-        <button id="digit-7" class="digit col-md-4"></button>
-        <button id="digit-8" class="digit col-md-4"></button>
-        <button id="digit-9" class="digit col-md-4"></button>
-        <button id="digit-4" class="digit col-md-4"></button>
-        <button id="digit-5" class="digit col-md-4"></button>
-        <button id="digit-6" class="digit col-md-4"></button>
-        <button id="digit-1" class="digit col-md-4"></button>
-        <button id="digit-2" class="digit col-md-4"></button>
-        <button id="digit-3" class="digit col-md-4"></button>
-        <button class="digit col-md-4"></button>
-        <button id="digit-0" class="digit col-md-4"></button>
-        <button class="digit col-md-4"></button>
+
+      <div class="row">
+        <button id="clear" class="operator col-xs-3 btn btn-default left-top"></button>
+        <button id="invert" class="operator col-xs-3 btn btn-default"></button>
+        <button id="percent" class="operator col-xs-3 btn btn-default"></button>
+        <button id="devide" class="operator col-xs-3 btn btn-warning right-top"></button>
       </div>
 
-      <!-- 演算子 -->
-      <div id="operators" class="col-md-4">
-        <button id="clear" class="operator"></button>
-        <button id="dot" class="operator"></button>
-        <button id="equal" class="operator"></button>
-        <button id="devide" class="operator"></button>
-        <button id="multiply" class="operator"></button>
-        <button id="minus" class="operator"></button>
-        <button id="plus" class="operator"></button>
-        <button id="invert" class="operator"></button>
-        <button id="percent" class="operator"></button>
+      <div class="row">
+        <button id="digit-7" class="digit col-xs-3 btn btn-default"></button>
+        <button id="digit-8" class="digit col-xs-3 btn btn-default"></button>
+        <button id="digit-9" class="digit col-xs-3 btn btn-default"></button>
+        <button id="multiply" class="operator col-xs-3 btn btn-warning"></button>
       </div>
+
+
+      <div class="row">
+        <button id="digit-4" class="digit col-xs-3 btn btn-default"></button>
+        <button id="digit-5" class="digit col-xs-3 btn btn-default"></button>
+        <button id="digit-6" class="digit col-xs-3 btn btn-default"></button>
+        <button id="minus"   class="operator col-xs-3 btn btn-warning"></button>
+      </div>
+
+      <div class="row">
+        <button id="digit-1" class="digit col-xs-3 btn btn-default"></button>
+        <button id="digit-2" class="digit col-xs-3 btn btn-default"></button>
+        <button id="digit-3" class="digit col-xs-3 btn btn-default"></button>
+        <button id="plus"    class="operator col-xs-3 btn btn-warning"></button>
+      </div>
+
+      <div class="row">
+        <button id="digit-0" class="digit col-xs-6 btn btn-default bottom left-bottom"></button>
+        <button id="dot"     class="operator col-xs-3 btn btn-default bottom"></button>
+        <button id="equal"   class="operator col-xs-3 btn btn-warning bottom right-bottom"></button>
+    </div>
+
     </div>
   </div>
 
