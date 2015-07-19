@@ -93,7 +93,22 @@ module.exports = class App extends Backbone.Model
       f2.invert()
       update = f2
 
-    if figure.isValid()
+    if update.isValid()
+      @set
+        'display'     : update.getDisplayValue()
+
+  percent : ->
+    f1     = @get 'operand1'
+    f2     = @get 'operand2'
+    update
+    if !f1.isNew()
+      f1.percent()
+      update = f1
+    else
+      f2.percent()
+      update = f2
+
+    if update.isValid()
       @set
         'display'     : update.getDisplayValue()
 

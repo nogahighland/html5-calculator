@@ -141,3 +141,6 @@ module.exports = class Figure extends Backbone.Model
 
   invert : ->
     @set 'value', @get('value') * -1
+
+  percent : ->
+    @set 'value', @get('value') / 100

@@ -12,7 +12,7 @@ class App extends Backbone.View
 
   # 初期化処理
   initialize : ->
-    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperator', 'clickDot', 'clickInvert'
+    _.bindAll @, 'clickDigit', 'clickClear', 'clickOperator', 'clickDot', 'clickInvert', 'clickPercent'
 
     @model = new AppModel()
     @render()
@@ -26,6 +26,7 @@ class App extends Backbone.View
     Events.on 'click:clear', @clickClear
     Events.on 'click:operator', @clickOperator
     Events.on 'click:invert', @clickInvert
+    Events.on 'click:percent', @clickPercent
 
     # キーコントロール
     @keyControl = new KeyControl
@@ -101,13 +102,21 @@ class App extends Backbone.View
     )
     buttons.push @clear
 
-    # クリア
+    # 反転
     @invert     = new Button(
       el        : '#invert.operator'
       model     : new Backbone.Model(value:'+/-')
       eventName : 'invert'
     )
     buttons.push @invert
+
+    # %
+    @percent     = new Button(
+      el        : '#percent.operator'
+      model     : new Backbone.Model(value:'%')
+      eventName : 'percent'
+    )
+    buttons.push @percent
 
     for button in buttons
       button.render()
@@ -128,5 +137,8 @@ class App extends Backbone.View
 
   clickInvert  : ->
     @model.invert()
+
+  clickPercent : ->
+    @model.percent()
 
 new App

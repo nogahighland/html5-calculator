@@ -22,7 +22,7 @@ module.exports = class Button extends Backbone.View
     @eventName = params.eventName
     _.bindAll @, 'click', 'mouseover', 'mouseout', 'keypress', 'keyup'
     for type in ['keypress', 'keyup']
-      for name in ['digit', 'operator', 'dot', 'clear']
+      for name in ['digit', 'operator', 'dot', 'clear', 'percent']
         Events.on "#{type}:#{name}", @[type]
 
   render : ->
