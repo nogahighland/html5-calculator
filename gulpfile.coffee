@@ -23,7 +23,7 @@ g.task 'reload', ->
   reload()
 
 # sassコンパイル
-g.task 'sass', ['fonts'], ->
+g.task 'sass', ->
   $.rubySass 'dev/sass/',
     style:'compressed'
     loadPath:'bower_components/bootstrap-sass/assets/stylesheets/'
@@ -31,11 +31,6 @@ g.task 'sass', ['fonts'], ->
   .pipe $.minifyCss()
   .pipe g.dest '.tmp/css'
   .pipe reload stream:true
-
-# fontsの移動
-g.task 'fonts', ->
-  g.src ['bower_components/bootstrap-sass/assets/fonts/bootstrap/*']
-  .pipe g.dest '.tmp/fonts/bootstrap'
 
 # coffeeスクリプトのコンパイル
 g.task 'coffee', ->
