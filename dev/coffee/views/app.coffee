@@ -1,5 +1,4 @@
-Backbone   = require 'backbone', window.jQuery = $ = require 'jquery', _ = require 'underscore'
-bootstrap  = (require 'bootstrap-sass')
+Backbone   = require 'backbone', $ = require 'jquery', _ = require 'underscore'
 
 Display    = require './display'
 ErrorView  = require './error'
