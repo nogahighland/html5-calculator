@@ -37,6 +37,11 @@ class App extends Backbone.View
     # キーコントロール
     @keyControl = new KeyControl
 
+    # タッチ操作のスクロール禁止
+    for e in ['touchstart','touchmove','touchend','gesturestart','gesturechange','gestureend']
+      $(document).on e, (event) ->
+        event.preventDefault()
+
   # 初期描画
   render : ->
     @display = new Display

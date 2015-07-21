@@ -34,13 +34,14 @@ module.exports = class Button extends Backbone.View
     else
       event.preventDefault()
 
-  touchstart : () ->
+  touchstart : ->
     @isPressed = true
 
-  touchend : () ->
+  touchend : (e) ->
     if @isPressed
       Events.trigger "click:#{@eventName}", @model.get 'value'
-      @isPressed = false
+
+    @isPressed = false
 
   keypress : (value) ->
     if value == @model.get 'value'
