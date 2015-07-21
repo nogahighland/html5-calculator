@@ -14,11 +14,13 @@ module.exports = class Button extends Backbone.View
   tagName : 'button'
 
   events :
-    'click' : 'click'
+    'click'      : 'click'
+    'touchstart' : 'touchstart'
+    'touchend'   : 'touchend'
 
   initialize : (params) ->
     @eventName = params.eventName
-    _.bindAll @, 'click', 'keypress', 'keyup'
+    _.bindAll @, 'click', 'touchstart', 'touchend', 'keypress', 'keyup'
     for type in ['keypress', 'keyup']
       for name in ['digit', 'operator', 'dot', 'clear', 'percent', 'invert']
         Events.on "#{type}:#{name}", @[type]
@@ -26,8 +28,19 @@ module.exports = class Button extends Backbone.View
   render : ->
     @$el.text(@model.get 'value')
 
-  click : ->
-    Events.trigger "click:#{@eventName}", @model.get 'value'
+  click : (event) ->
+    if !@isTouchDevice()
+      Events.trigger "click:#{@eventName}", @model.get 'value'
+    else
+      event.preventDefault()
+
+  touchstart : () ->
+    @isPressed = true
+
+  touchend : () ->
+    if @isPressed
+      Events.trigger "click:#{@eventName}", @model.get 'value'
+      @isPressed = false
 
   keypress : (value) ->
     if value == @model.get 'value'
@@ -40,3 +53,6 @@ module.exports = class Button extends Backbone.View
     if value == 'C'== @model.get 'value'
       @click()
     @$el.removeClass 'btn-pressed'
+
+  isTouchDevice : ->
+    /(i(phone|pod|pad)|android|windows|blackberry)/.test window.navigator.userAgent.toLowerCase()
