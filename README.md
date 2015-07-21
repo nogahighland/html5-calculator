@@ -25,8 +25,18 @@
 
 ### 前提
 
-- Node.jsがインストールされていること
-- npm, bower, gulpがグローバルインストールされていること
+- [Node.js](https://nodejs.org/)がインストールされていること, npm
+- bower, gulpがグローバルインストールされていること
+
+```sh
+$ npm install -g bower
+$ npm install -g gulp
+```
+- sassがインストールされていること(Rubyがインストールされていることが前提となります)
+
+```sh
+$ gem install sass
+```
 
 ### セットアップ
 
