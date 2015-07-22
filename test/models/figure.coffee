@@ -92,6 +92,18 @@ describe '数字入力のテスト', ->
     }
     eq '0.0000000', figure.getDisplayValue()
 
+  it '0.000000→1', ->
+    figure = new Figure(value:0.000000, decimalPoint:6, dot:true)
+    figure.addDigit 1
+    ok figure.isValid()
+    modelEq figure, {
+      dot         : true
+      decimalPoint: 7
+      value       : 0.0000001
+      isNew       : false
+    }
+    eq '0.0000001', figure.getDisplayValue()
+
 describe '文字列入力のテスト', ->
 
   it '空→1', ->
@@ -168,6 +180,17 @@ describe '文字列入力のテスト', ->
     }
     eq '0.0000000', figure.getDisplayValue()
 
+  it '0.000000→1', ->
+    figure = new Figure(value:'0.000000', decimalPoint:6, dot:true)
+    figure.addDigit '0'
+    ok figure.isValid()
+    modelEq figure, {
+      dot         : true
+      decimalPoint: 7
+      value       : 0.0000001
+      isNew       : false
+    }
+    eq '0.0000001', figure.getDisplayValue()
 
 describe '削除のテスト', ->
 
