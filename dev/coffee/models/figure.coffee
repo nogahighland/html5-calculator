@@ -107,7 +107,7 @@ module.exports = class Figure extends Backbone.Model
     figure = "#{figure}".split('.')
     natural = figure[0]
 
-    if /e-\d+/.test(natural)
+    if /e(-|\+)\d+/.test(natural)
       return figure
 
     for digit,i in natural.split('').reverse()
@@ -117,7 +117,6 @@ module.exports = class Figure extends Backbone.Model
 
     if figure.length == 2
       decimal = figure[1]
-
       if !decimal and @get 'decimalPoint'
         _(@get 'decimalPoint').times ->
           decimal = "#{decimal}0"
