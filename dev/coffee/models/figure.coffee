@@ -7,14 +7,16 @@ module.exports = class Figure extends Backbone.Model
   defaults:
     dot         : false
     value       : 0
+    # 現在小数点第何位までか
     decimalPoint: 0
+    # 新規にインスタンスが生成されて、入力によって変わったか
     isNew       : true
     # 計算結果となった第一数値
-    operand1 :null
+    operand1    :null
     # 計算結果となった第二数値
-    operand2:null
+    operand2    :null
     # 計算に使用される演算子
-    operator     :null
+    operator    :null
 
   initialize : (attrs) ->
     value = @get 'value'
@@ -114,7 +116,13 @@ module.exports = class Figure extends Backbone.Model
       splitted = digit + splitted
 
     if figure.length == 2
-      return "#{splitted}.#{figure[1]}"
+      decimal = figure[1]
+
+      if !decimal and @get 'decimalPoint'
+        _(@get 'decimalPoint').times ->
+          decimal = "#{decimal}0"
+
+      return "#{splitted}.#{decimal}"
     else
       return splitted
 

@@ -14,6 +14,7 @@ describe '数字入力のテスト', ->
       value : 1
       isNew :false
     }
+    eq '1', figure.getDisplayValue()
 
   it '1→2', ->
     figure = new Figure(value:1)
@@ -24,6 +25,7 @@ describe '数字入力のテスト', ->
       value : 12
       isNew :false
     }
+    eq '12', figure.getDisplayValue()
 
   it '1.→2', ->
     figure = new Figure(value:1, dot:true, decimalPoint:0)
@@ -36,6 +38,7 @@ describe '数字入力のテスト', ->
       value       : 1.2
       isNew       : false
     }
+    eq '1.2', figure.getDisplayValue()
 
   it '.→2', ->
     figure = new Figure(dot:true, decimalPoint:0)
@@ -48,6 +51,7 @@ describe '数字入力のテスト', ->
       value       : 0.2
       isNew       : false
     }
+    eq '0.2', figure.getDisplayValue()
 
   it '.→2→3', ->
     figure = new Figure(dot:true, decimalPoint:0)
@@ -62,6 +66,7 @@ describe '数字入力のテスト', ->
       value       : 0.23
       isNew       : false
     }
+    eq '0.23', figure.getDisplayValue()
 
   it '0.1111111111→1', ->
     figure = new Figure(value:0.1111111111, decimalPoint:10, dot:true)
@@ -73,6 +78,19 @@ describe '数字入力のテスト', ->
       value       : 0.11111111111
       isNew       : false
     }
+    eq '0.11111111111', figure.getDisplayValue()
+
+  it '0.000000→0', ->
+    figure = new Figure(value:0.000000, decimalPoint:6, dot:true)
+    figure.addDigit 0
+    ok figure.isValid()
+    modelEq figure, {
+      dot         : true
+      decimalPoint: 7
+      value       : 0.0000000
+      isNew       : false
+    }
+    eq '0.0000000', figure.getDisplayValue()
 
 describe '文字列入力のテスト', ->
 
@@ -84,6 +102,7 @@ describe '文字列入力のテスト', ->
       value : 1
       isNew :false
     }
+    eq '1', figure.getDisplayValue()
 
   it '1→2', ->
     figure = new Figure(value:1)
@@ -94,6 +113,7 @@ describe '文字列入力のテスト', ->
       value : 12
       isNew :false
     }
+    eq '12', figure.getDisplayValue()
 
   it '1.→2', ->
     figure = new Figure(value:1, dot:true, decimalPoint:0)
@@ -106,6 +126,7 @@ describe '文字列入力のテスト', ->
       value       : 1.2
       isNew       : false
     }
+    eq '1.2', figure.getDisplayValue()
 
   it '.→2', ->
     figure = new Figure(dot:true, decimalPoint:0)
@@ -118,6 +139,7 @@ describe '文字列入力のテスト', ->
       value       : 0.2
       isNew       : false
     }
+    eq '0.2', figure.getDisplayValue()
 
   it '.→2→3', ->
     figure = new Figure(dot:true,decimalPoint:0)
@@ -132,6 +154,20 @@ describe '文字列入力のテスト', ->
       value       : 0.23
       isNew       : false
     }
+    eq '0.23', figure.getDisplayValue()
+
+  it '0.000000→0', ->
+    figure = new Figure(value:'0.000000', decimalPoint:6, dot:true)
+    figure.addDigit '0'
+    ok figure.isValid()
+    modelEq figure, {
+      dot         : true
+      decimalPoint: 7
+      value       : 0.0000000
+      isNew       : false
+    }
+    eq '0.0000000', figure.getDisplayValue()
+
 
 describe '削除のテスト', ->
 
@@ -242,6 +278,37 @@ describe 'シナリオテスト', ->
       value       : -123.5
       isNew       : false
     }
+
+  it '.→0→0→0→0', ->
+    figure = new Figure
+    figure.dot()
+    figure.addDigit 0
+    figure.addDigit 0
+    figure.addDigit 0
+
+    modelEq figure, {
+      decimalPoint: 3
+      dot         : true
+      value       : 0.000
+      isNew       : false
+    }
+    eq '0.000', figure.getDisplayValue()
+
+  it '0.→0→0→0→0', ->
+    figure = new Figure
+    figure.addDigit 0
+    figure.dot()
+    figure.addDigit 0
+    figure.addDigit 0
+    figure.addDigit 0
+
+    modelEq figure, {
+      decimalPoint: 3
+      dot         : true
+      value       : 0.000
+      isNew       : false
+    }
+    eq '0.000', figure.getDisplayValue()
 
 describe 'コンストラクタ', ->
   it '123', ->
