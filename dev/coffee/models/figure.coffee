@@ -1,4 +1,5 @@
 Backbone = require 'backbone', $ = require 'jquery', _ = require 'underscore'
+__ = require 'lodash'
 Events   = require '../events/event'
 
 # 入力値
@@ -104,26 +105,39 @@ module.exports = class Figure extends Backbone.Model
       figure = @get 'value'
 
     splitted = ""
+
+    match = /(\d)\.?(\d*)e(-|\+)(\d+)/.exec figure
+    if match
+      number   = match[1] + match[2]
+      posiNega = match[3]
+      col      = match[4]
+
+      if posiNega == '+'
+        return @split(number + (__.repeat 0, (col - number.length)))
+      else
+        return '0.' + (__.repeat 0, (col - number.length)) + number
+
     figure = "#{figure}".split('.')
     natural = figure[0]
 
-    if /e(-|\+)\d+/.test(natural)
-      return figure
-
-    for digit,i in natural.split('').reverse()
-      if i and i % 3 == 0 and digit != '-'
-        splitted = ',' + splitted
-      splitted = digit + splitted
+    splitted = @split natural
 
     if figure.length == 2
       decimal = figure[1]
       if !decimal and @get 'decimalPoint'
-        _(@get 'decimalPoint').times ->
-          decimal = "#{decimal}0"
+        decimal = __.repeat '0', _(@get 'decimalPoint')
 
       return "#{splitted}.#{decimal}"
     else
       return splitted
+
+  split : (natural) ->
+    splitted = ''
+    for digit,i in natural.split('').reverse()
+      if i and i % 3 == 0 and digit != '-'
+        splitted = ',' + splitted
+      splitted = digit + splitted
+    splitted
 
   calculate : (other) ->
     switch @get 'operator'
